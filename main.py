@@ -1,0 +1,170 @@
+import ply.lex as lex
+
+BIN = r'[01]'
+OCT = r'[0-7]'
+HEX = r'[0-9a-fA-F]'
+DEC = r'[0-9]'
+
+OX80_OXBF = r'[\200-\277]'
+OXF4 = '\364'
+OX80_OX8F = r'[\200-\217]'
+OXF1_OXF3 = r'[\361-\363]'
+OXF0 = '\360'
+OX90_OXBF = r'[\220-\277]'
+OXEE_OXEF = r'[\356-\357]'
+OXED = '\355'
+OX80_OX9F = r'[\200-\237]'
+OXE1_OXEC = r'[\341-\354]'
+OXE0 = '\340'
+OXA0_OXBF = r'[\240-\277]'
+OXC2_OXDF = r'[\302-\337]'
+
+
+NON_CONTROL_ASCII = r'[\040-\176]'
+NON_CONTROL_UTF8 = r'[\040-\377]'
+
+tokens =[
+    'BIN_INT',
+    'OCT_INT',
+    'DEC_INT',
+    'HEX_INT',
+    'MULTIBYTE_UTF8',
+    'CONTAINER_DOC_COMMENT',
+    'DOC_COMMENT',
+    'SKIP',
+    'CHAR_ESCAPE',
+    'CHAR_CHAR',
+    'STRING_CHAR',
+    'LINE_COMMENT',
+    'LINE_STRING',
+    'CHAR_LITERAL',
+    'FLOAT',
+    'INTEGER',
+    'STRINGLITERALSINGLE',
+    'STRINGLITERAL',
+    'IDENTIFIER',
+    'BUILTINIDENTIFIER',
+    'AMPERSAND',
+    'AMPERSANDEQUAL',
+    'ASTERISK',
+    'ASTERISK2',
+    'ASTERISKEQUAL',
+    'ASTERISKPERCENTEQUAL',
+    'CARET',
+    'CARETEQUAL',
+    'COLON',
+    'DOT',
+    'DOT2',
+    'DOT3',
+    'DOTASTERISK',
+    'DOTQUESTIONMARK',
+    'EQUAL',
+    'EQUALEQUAL',
+    'EQUALRARROW',
+    'EXCLAMATIONMARK',
+    'EXCLAMATIONMARKEQUAL',
+    'LARROW',
+    'LARROW2',
+    'LARROW2EQUAL',
+    'LARROWEQUAL',
+    'LBRACE',
+    'LBRACKET',
+    'LPAREN',
+    'MINUS',
+    'MINUSEQUAL',
+    'MINUSPERCENT',
+    'MINUSPERCENTEQUAL',
+    'MINUSRARROW',
+    'PERCENT',
+    'PERCENTEQUAL',
+    'PIPE',
+    'PIPEEQUAL',
+    'PLUS',
+    'PLUS2',
+    'PLUSEQUAL',
+    'PLUSPERCENT',
+    'PLUSPERCENTEQUAL',
+    'PTRC',
+    'PTRUNKNOWN',
+    'QUESTIONMARK',
+    'RARROW',
+    'RARROW2',
+    'RARROW2EQUAL',
+    'RARROWEQUAL',
+    'RBRACE',
+    'RBRACKET',
+    'RPAREN',
+    'SEMICOLON',
+    'SLASH',
+    'SLASHEQUAL',
+    'TILDE',
+    'END_OF_WORD',
+    'KEYWORD_AND',
+    'KEYWORD_ANYTYPE',
+    'KEYWORD_BREAK',
+    'KEYWORD_CONST',
+    'KEYWORD_CONTINUE',
+    'KEYWORD_ELSE',
+    'KEYWORD_ENUM',
+    'KEYWORD_FALSE',
+    'KEYWORD_FN',
+    'KEYWORD_FOR',
+    'KEYWORD_IF',
+    'KEYWORD_NULL',
+    'KEYWORD_OR',
+    'KEYWORD_ORELSE',
+    'KEYWORD_PUB',
+    'KEYWORD_RETURN',
+    'KEYWORD_STRUCT',    
+    'KEYWORD_SWITCH',
+    'KEYWORD_TRUE',
+    'KEYWORD_UNION',
+    'KEYWORD_UNDEFINED',
+    'KEYWORD_WHILE',
+    'KEYWORD_VAR',
+    'KEYWORD'
+]
+
+
+
+def t_error(t):
+    print("Caractere inválido:", t.value[0])
+    t.lexer.skip(1)
+
+def t_eof(t):
+    print('FIM DE ARQUIVO')
+    return None
+
+
+
+t_BIN_INT = rf'{BIN}(_?{BIN})*'
+t_OCT_INT = rf'{OCT}(_?{OCT})*'
+t_HEX_INT = rf'{HEX}(_?{HEX})*'
+t_DEC_INT = rf'{DEC}(_?{DEC})*'
+
+t_MULTIBYTE_UTF8 =(
+    rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}')
+
+t_CHAR_ESCAPE = (
+    rf'\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]'
+)
+
+
+t_CHAR_CHAR = (
+     rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}|\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]|{NON_CONTROL_ASCII}'
+)
+
+t_STRING_CHAR = (
+  rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}|\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]|{NON_CONTROL_ASCII}'
+    
+)
+
+
+
+t_CONTAINER_DOC_COMMENT = (rf'///{NON_CONTROL_ASCII}*[ \n]*skip')
+
+lexer = lex.lex()
+lexer.input('0_000000')
+
+for tok in lexer:
+    print(tok.value,tok.type)
