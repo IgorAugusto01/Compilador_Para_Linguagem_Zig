@@ -1,58 +1,48 @@
 import ply.lex as lex
 
-BIN = r'[01]'
-OCT = r'[0-7]'
-HEX = r'[0-9a-fA-F]'
-DEC = r'[0-9]'
 
-OX80_OXBF = r'[\200-\277]'
-OXF4 = '\364'
-OX80_OX8F = r'[\200-\217]'
-OXF1_OXF3 = r'[\361-\363]'
-OXF0 = '\360'
-OX90_OXBF = r'[\220-\277]'
-OXEE_OXEF = r'[\356-\357]'
-OXED = '\355'
-OX80_OX9F = r'[\200-\237]'
-OXE1_OXEC = r'[\341-\354]'
-OXE0 = '\340'
-OXA0_OXBF = r'[\240-\277]'
-OXC2_OXDF = r'[\302-\337]'
-
-
-NON_CONTROL_ASCII = r'[\040-\176]'
-NON_CONTROL_UTF8 = r'[\040-\377]'
+palavras_reservadas= {
+    'and': 'KEYWORD_AND',
+    'anytype': 'KEYWORD_ANYTYPE',
+    'break': 'KEYWORD_BREAK',
+    'const': 'KEYWORD_CONST',
+    'continue': 'KEYWORD_CONTINUE',
+    'else': 'KEYWORD_ELSE',
+    'enum': 'KEYWORD_ENUM',
+    'false': 'KEYWORD_FALSE',
+    'fn': 'KEYWORD_FN',
+    'for': 'KEYWORD_FOR',
+    'if': 'KEYWORD_IF',
+    'or': 'KEYWORD_OR',
+    'orelse': 'KEYWORD_ORELSE',
+    'pub': 'KEYWORD_PUB',
+    'return': 'KEYWORD_RETURN',
+    'struct': 'KEYWORD_STRUCT',
+    'switch': 'KEYWORD_SWITCH',
+    'true': 'KEYWORD_TRUE',
+    'union': 'KEYWORD_UNION',
+    'undefined': 'KEYWORD_UNDEFINED',
+    'while': 'KEYWORD_WHILE',
+    'var': 'KEYWORD_VAR',
+}
 
 tokens =[
-    'BIN_INT',
-    'OCT_INT',
-    'DEC_INT',
-    'HEX_INT',
-    'MULTIBYTE_UTF8',
-    'CONTAINER_DOC_COMMENT',
-    'DOC_COMMENT',
-    'SKIP',
-    'CHAR_ESCAPE',
-    'CHAR_CHAR',
-    'STRING_CHAR',
+    'STRING',
     'LINE_COMMENT',
-    'LINE_STRING',
-    'CHAR_LITERAL',
-    'FLOAT',
+    'CHAR',
     'INTEGER',
-    'STRINGLITERALSINGLE',
-    'STRINGLITERAL',
     'IDENTIFIER',
     'BUILTINIDENTIFIER',
     'AMPERSAND',
     'AMPERSANDEQUAL',
     'ASTERISK',
-    'ASTERISK2',
     'ASTERISKEQUAL',
+    'ASTERISKPERCENT',
     'ASTERISKPERCENTEQUAL',
     'CARET',
     'CARETEQUAL',
     'COLON',
+    'COMMA',
     'DOT',
     'DOT2',
     'DOT3',
@@ -66,6 +56,8 @@ tokens =[
     'LARROW',
     'LARROW2',
     'LARROW2EQUAL',
+    'LARROW2PIPE',
+    'LARROW2PIPEEQUAL',
     'LARROWEQUAL',
     'LBRACE',
     'LBRACKET',
@@ -74,18 +66,21 @@ tokens =[
     'MINUSEQUAL',
     'MINUSPERCENT',
     'MINUSPERCENTEQUAL',
+    'MINUSPIPE',
+    'MINUSPIPEEQUAL',
     'MINUSRARROW',
     'PERCENT',
     'PERCENTEQUAL',
     'PIPE',
+    'PIPE2',
     'PIPEEQUAL',
     'PLUS',
     'PLUS2',
     'PLUSEQUAL',
     'PLUSPERCENT',
     'PLUSPERCENTEQUAL',
-    'PTRC',
-    'PTRUNKNOWN',
+    'PLUSPIPE',
+    'PLUSPIPEEQUAL',
     'QUESTIONMARK',
     'RARROW',
     'RARROW2',
@@ -97,74 +92,163 @@ tokens =[
     'SEMICOLON',
     'SLASH',
     'SLASHEQUAL',
-    'TILDE',
-    'END_OF_WORD',
-    'KEYWORD_AND',
-    'KEYWORD_ANYTYPE',
-    'KEYWORD_BREAK',
-    'KEYWORD_CONST',
-    'KEYWORD_CONTINUE',
-    'KEYWORD_ELSE',
-    'KEYWORD_ENUM',
-    'KEYWORD_FALSE',
-    'KEYWORD_FN',
-    'KEYWORD_FOR',
-    'KEYWORD_IF',
-    'KEYWORD_NULL',
-    'KEYWORD_OR',
-    'KEYWORD_ORELSE',
-    'KEYWORD_PUB',
-    'KEYWORD_RETURN',
-    'KEYWORD_STRUCT',    
-    'KEYWORD_SWITCH',
-    'KEYWORD_TRUE',
-    'KEYWORD_UNION',
-    'KEYWORD_UNDEFINED',
-    'KEYWORD_WHILE',
-    'KEYWORD_VAR',
-    'KEYWORD'
-]
+    'TILDE'
+] + list(palavras_reservadas.values())
 
 
+def t_IDENTIFIER(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = palavras_reservadas.get(t.value, 'IDENTIFIER')
+    return t
 
 def t_error(t):
     print("Caractere inválido:", t.value[0])
     t.lexer.skip(1)
 
-def t_eof(t):
-    print('FIM DE ARQUIVO')
-    return None
+t_ignore = ' \n\t'
+
+t_STRING = r'"([^"\\]|\\.)*"'
+
+t_LINE_COMMENT = r'//[^\n]*'
+
+t_CHAR = r"'.'"
+
+t_INTEGER = (r'0b[01](_?[01]*)*|0o[0-7](_?[0-7]*)*|0x[a-fA-F0-9](_?[a-fA-F0-9]*)*|0|[1-9][0-9]*')
+
+
+t_BUILTINIDENTIFIER =r'@[a-zA-Z_][a-zA-Z0-9_]*'
+
+t_AMPERSAND = r'&'
+
+t_AMPERSANDEQUAL = '&='
+
+t_ASTERISK =r'\*'
+
+t_ASTERISKEQUAL = r'\*='
+
+t_ASTERISKPERCENT = r'\*%'
+
+t_ASTERISKPERCENTEQUAL = r'\*%='
+
+t_CARET = r'\^'
+
+t_CARETEQUAL = r'\^='
+
+t_COLON= r":"
+
+t_COMMA = r","
+
+t_DOT3 = r"\.{3}"
+
+t_DOT2 = r"\.{2}"
+
+t_DOT = r"\."
+
+t_DOTASTERISK = r"\.\*"
+
+t_DOTQUESTIONMARK = r"\.\?"
+
+t_EQUAL = r'='
+
+t_EQUALEQUAL = r"=="
+
+t_EQUALRARROW = r'=>'
+
+t_EXCLAMATIONMARK = r'!'
+
+t_EXCLAMATIONMARKEQUAL = r'!='
+
+t_LARROW = r'<'
+
+t_LARROW2 = r'<<'
+
+t_LARROW2EQUAL = r'<<='
+
+t_LARROW2PIPE = r'<<\|'
+
+t_LARROW2PIPEEQUAL = r'<<\|='
+
+t_LARROWEQUAL = r'<='
+
+t_LBRACE = r'\{'
+
+t_LBRACKET = r'\['
+
+t_LPAREN = r'\('
+
+t_MINUS = r'-'
+
+t_MINUSEQUAL = r'-='
+
+t_MINUSPERCENT = r'-%'
+
+t_MINUSPERCENTEQUAL = r'-%='
+
+t_MINUSPIPE = r'-\|'
+
+t_MINUSPIPEEQUAL = r'-\|='
+
+t_MINUSRARROW = r'->'
+
+t_PERCENT = r'%'
+
+t_PERCENTEQUAL = r'%='
+
+t_PIPE = r'\|'
+
+t_PIPE2 = r'\|\|'
+
+t_PIPEEQUAL = r'\|='
+
+t_PLUS = r'\+'
+
+t_PLUS2 = r'\+\+'
+
+t_PLUSEQUAL = r'\+='
+
+t_PLUSPERCENT = r'\+%'
+
+t_PLUSPERCENTEQUAL = r'\+%='
+
+t_PLUSPIPE = r'\+\|'
+
+t_PLUSPIPEEQUAL = r'\+\|='
+
+t_QUESTIONMARK = r'\?'
+
+t_RARROW = r'>'
+
+t_RARROW2 = r'>>'
+
+t_RARROW2EQUAL = r'>>='
+
+t_RARROWEQUAL = r'>='
+
+t_RBRACE = r'\}'
+
+t_RBRACKET = r'\]'
+
+t_RPAREN = r'\)'
+
+t_SEMICOLON = r';'
+
+t_SLASH = r'/'
+
+t_SLASHEQUAL = r'/='
+
+t_TILDE = r'~'
 
 
 
-t_BIN_INT = rf'{BIN}(_?{BIN})*'
-t_OCT_INT = rf'{OCT}(_?{OCT})*'
-t_HEX_INT = rf'{HEX}(_?{HEX})*'
-t_DEC_INT = rf'{DEC}(_?{DEC})*'
-
-t_MULTIBYTE_UTF8 =(
-    rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}')
-
-t_CHAR_ESCAPE = (
-    rf'\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]'
-)
-
-
-t_CHAR_CHAR = (
-     rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}|\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]|{NON_CONTROL_ASCII}'
-)
-
-t_STRING_CHAR = (
-  rf'{OXF4}{OX80_OX8F}{OX80_OXBF}{OX80_OXBF}|{OXF1_OXF3}{OX80_OXBF} {OX80_OXBF}{OX80_OXBF}|{OXF0}{OX90_OXBF} {OX80_OXBF} {OX80_OXBF}|{OXEE_OXEF}{OX80_OXBF}{OX80_OXBF}|{OXED}{OX80_OX9F}{OX80_OXBF}| {OXE1_OXEC}{OX80_OXBF}{OX80_OXBF}|{OXE0}{OXA0_OXBF}{OX80_OXBF}|{OXC2_OXDF}{OX80_OXBF}|\\x{HEX}{HEX}|\\u\{{{HEX}+\}}|\\[nrt\'"\\]|{NON_CONTROL_ASCII}'
-    
-)
 
 
 
-t_CONTAINER_DOC_COMMENT = (rf'///{NON_CONTROL_ASCII}*[ \n]*skip')
+
+
 
 lexer = lex.lex()
-lexer.input('0_000000')
+
+lexer.input('"const"')
 
 for tok in lexer:
-    print(tok.value,tok.type)
+    print(tok.value, tok.type)
