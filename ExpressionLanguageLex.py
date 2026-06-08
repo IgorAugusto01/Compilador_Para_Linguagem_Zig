@@ -24,6 +24,18 @@ palavras_reservadas= {
     'undefined': 'KEYWORD_UNDEFINED',
     'while': 'KEYWORD_WHILE',
     'var': 'KEYWORD_VAR',
+    'void': 'KEYWORD_VOID',
+    'i8': 'KEYWORD_I8',
+    'u8': 'KEYWORD_U8',
+    'i16': 'KEYWORD_I16',
+    'u16': 'KEYWORD_U16',
+    'i32': 'KEYWORD_I32',
+    'u32': 'KEYWORD_U32',
+    'i64': 'KEYWORD_I64',
+    'u64': 'KEYWORD_U64',
+    'i128': 'KEYWORD_I128',
+    'u128': 'KEYWORD_U128'
+
 }
 
 tokens =[
@@ -31,7 +43,7 @@ tokens =[
     'LINE_COMMENT',
     'CHAR',
     'INTEGER',
-    'IDENTIFIER',
+    'ID',
     'BUILTINIDENTIFIER',
     'AMPERSAND',
     'AMPERSANDEQUAL',
@@ -105,7 +117,11 @@ def t_error(t):
     print("Caractere inválido:", t.value[0])
     t.lexer.skip(1)
 
-t_ignore = ' \n\t'
+def t_newline(t):
+   r'\n+'
+   t.lexer.lineno += len(t.value)
+
+t_ignore = ' \t'
 
 t_STRING = r'"([^"\\]|\\.)*"'
 
@@ -113,8 +129,10 @@ t_LINE_COMMENT = r'//[^\n]*'
 
 t_CHAR = r"'.'"
 
-t_INTEGER = (r'0b[01](_?[01]*)*|0o[0-7](_?[0-7]*)*|0x[a-fA-F0-9](_?[a-fA-F0-9]*)*|0|[1-9][0-9]*')
-
+def t_INTEGER(t):
+    r'0b[01](_?[01]*)*|0o[0-7](_?[0-7]*)*|0x[a-fA-F0-9](_?[a-fA-F0-9]*)*|0|[1-9][0-9]*'
+    t.value = int(t.value, 0)
+    return t
 
 t_BUILTINIDENTIFIER =r'@[a-zA-Z_][a-zA-Z0-9_]*'
 
@@ -243,12 +261,14 @@ t_TILDE = r'~'
 
 
 
+def main():
+   f = open("exemplo.zig", "r")
+   lexer = lex.lex(debug=1)
+   lexer.input(f.read())
+   print('\n\n# lexer output:')
+   for tok in lexer:
+      print ('type:', tok.type, ', value:',tok.value)
 
 
-
-lexer = lex.lex()
-
-lexer.input('"const"')
-
-for tok in lexer:
-    print(tok.value, tok.type)
+if __name__ =="__main__":
+    main()
