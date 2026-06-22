@@ -108,9 +108,9 @@ tokens =[
 ] + list(palavras_reservadas.values())
 
 
-def t_IDENTIFIER(t):
+def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
-    t.type = palavras_reservadas.get(t.value, 'IDENTIFIER')
+    t.type = palavras_reservadas.get(t.value, 'ID')
     return t
 
 def t_error(t):
