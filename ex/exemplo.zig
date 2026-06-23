@@ -5,10 +5,10 @@ const acessar = @import("outrafuncao.zig");
 
 
 pub fn main() void {
-    
-const x = acessar.outro;
-
-std.debug.print("{d}\n", .{x});
+var y : u8 = 10; 
+var x : u8 = 5;
+y = x += 1;
+std.debug.print("O valor de x é: {}\n", .{y});
 
 }
 

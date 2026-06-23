@@ -42,7 +42,7 @@ Os parâmetros são escritos assim:
 
 ```
 params -> ID : tipo_retorno |
-          ID : tipo_retorno params |    
+          ID : tipo_retorno, params |    
 ```
 
 Um corpo pode conter comandos.
@@ -64,6 +64,17 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
               "const" ID = "("expr") ";"|
               "const" ID ":" tipo_retorno "=" "("expr")" ";" |
               "_" "=" expr ";" |
+              ID "=" expr ";" | 
+              ID "+=" expr ";"|
+              ID "+%" expr ";"|
+              ID "+%=" expr ";"|
+              ID "+|" expr ";"|
+              ID "+|=" expr ";"|
+              ID "-=" expr ";"|
+              ID "-%" expr ";"|
+              ID "-%=" expr ";"|
+              ID "-|" expr ";"|
+              ID "-|=" expr ";"|
               WHILE "(expr")" "{"comandos"}" |
               FOR "("expr ".." expr ")" |
               RETURN expr ";"
@@ -77,7 +88,7 @@ expr -> ID |
         CHAR|
         STRING|
         BUILTINIDENTIFIER "(STRING)" |
-        BUILTINIDENTIFIER "(STRING)" "." ID "." expr|
+        BUILTINIDENTIFIER "(STRING)" "." expr|
         INTEGER "+" expr |
         INTEGER "+" expr |
         INTEGER "-" expr |
