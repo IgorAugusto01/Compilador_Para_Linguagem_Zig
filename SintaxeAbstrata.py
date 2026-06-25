@@ -142,7 +142,7 @@ class Tipo_RetornoAbstract(ABC):
     def accept(self, visitor):
         pass
 
-class Tipo_Retorno_Void(Tipo_Retorno):
+class Tipo_Retorno_Void(Tipo_RetornoAbstract):
     def __init__(self, void):
         self.void = void
 
@@ -151,7 +151,7 @@ class Tipo_Retorno_Void(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_I8(Tipo_Retorno):
+class Tipo_Retorno_I8(Tipo_RetornoAbstract):
     def __init__(self, i8):
         self.i8 = i8
 
@@ -160,7 +160,7 @@ class Tipo_Retorno_I8(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_U8(Tipo_Retorno):
+class Tipo_Retorno_U8(Tipo_RetornoAbstract):
     def __init__(self, u8):
         self.u8 = u8
 
@@ -169,7 +169,7 @@ class Tipo_Retorno_U8(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_I16(Tipo_Retorno):
+class Tipo_Retorno_I16(Tipo_RetornoAbstract):
     def __init__(self, i16):
         self.i16 = i16
 
@@ -178,7 +178,7 @@ class Tipo_Retorno_I16(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_U16(Tipo_Retorno):
+class Tipo_Retorno_U16(Tipo_RetornoAbstract):
     def __init__(self, u16):
         self.u16 = u16
 
@@ -187,7 +187,7 @@ class Tipo_Retorno_U16(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_I32(Tipo_Retorno):
+class Tipo_Retorno_I32(Tipo_RetornoAbstract):
     def __init__(self, i32):
         self.i32 = i32
 
@@ -196,7 +196,7 @@ class Tipo_Retorno_I32(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_U32(Tipo_Retorno):
+class Tipo_Retorno_U32(Tipo_RetornoAbstract):
     def __init__(self, u32):
         self.u32 = u32
 
@@ -206,7 +206,7 @@ class Tipo_Retorno_U32(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_I64(Tipo_Retorno):
+class Tipo_Retorno_I64(Tipo_RetornoAbstract):
     def __init__(self, i64):
         self.i64 = i64
 
@@ -216,7 +216,7 @@ class Tipo_Retorno_I64(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_I128(Tipo_Retorno):
+class Tipo_Retorno_I128(Tipo_RetornoAbstract):
     def __init__(self, i128):
         self.i128 = i128
 
@@ -226,7 +226,7 @@ class Tipo_Retorno_I128(Tipo_Retorno):
 
 
 
-class Tipo_Retorno_U128(Tipo_Retorno):
+class Tipo_Retorno_U128(Tipo_RetornoAbstract):
     def __init__(self, u128):
         self.u128 = u128
 
@@ -237,5 +237,57 @@ class Tipo_Retorno_U128(Tipo_Retorno):
 
 
 
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA PARAMS  #########################
+
+
+class ParamsAbstract(ABC):
+      @abstractmethod
+    def accept(self, visitor):
+        pass
+
+class Params_ID_Tipo_Retorno(ParamsAbstract):
+
+    def __init__(self,ID,tipo_retorno):
+        self.ID = ID
+        self.tipo_retorno = tipo_retorno
+
+    def accept(self, visitor):
+        return visitor.visitParams_ID_Tipo_Retorno(self)
+
+
+
+
+class Params_ID_Tipo_Retorno_Params(ParamsAbstract):
+
+    def __init__(self,ID,tipo_retorno,params):
+        self.ID = ID
+        self.tipo_retorno = tipo_retorno
+        self.params = params
+
+    def accept(self, visitor):
+        return visitor.visitParams_ID_Tipo_Retorno_Params(self)
+
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA CORPO  #########################
+
+
+
+
+class CorpoAbstract(ABC):
+
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+
+
+class Corpo_Comandos(CorpoAbstract):
+
+    def __init__(self,comandos):
+        self.comandos = comandos
+
+     def accept(self, visitor):
+        return visitor.visitCorpo_Comandos(self)
+    
     
     
