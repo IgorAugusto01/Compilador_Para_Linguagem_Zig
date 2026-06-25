@@ -2,39 +2,39 @@ import ply.lex as lex
 
 
 palavras_reservadas= {
-    'and': 'KEYWORD_AND',
-    'anytype': 'KEYWORD_ANYTYPE',
-    'break': 'KEYWORD_BREAK',
-    'const': 'KEYWORD_CONST',
-    'continue': 'KEYWORD_CONTINUE',
-    'else': 'KEYWORD_ELSE',
-    'enum': 'KEYWORD_ENUM',
-    'false': 'KEYWORD_FALSE',
-    'fn': 'KEYWORD_FN',
-    'for': 'KEYWORD_FOR',
-    'if': 'KEYWORD_IF',
-    'or': 'KEYWORD_OR',
-    'orelse': 'KEYWORD_ORELSE',
-    'pub': 'KEYWORD_PUB',
-    'return': 'KEYWORD_RETURN',
-    'struct': 'KEYWORD_STRUCT',
-    'switch': 'KEYWORD_SWITCH',
-    'true': 'KEYWORD_TRUE',
-    'union': 'KEYWORD_UNION',
-    'undefined': 'KEYWORD_UNDEFINED',
-    'while': 'KEYWORD_WHILE',
-    'var': 'KEYWORD_VAR',
-    'void': 'KEYWORD_VOID',
-    'i8': 'KEYWORD_I8',
-    'u8': 'KEYWORD_U8',
-    'i16': 'KEYWORD_I16',
-    'u16': 'KEYWORD_U16',
-    'i32': 'KEYWORD_I32',
-    'u32': 'KEYWORD_U32',
-    'i64': 'KEYWORD_I64',
-    'u64': 'KEYWORD_U64',
-    'i128': 'KEYWORD_I128',
-    'u128': 'KEYWORD_U128'
+    'and': 'AND',
+    'anytype': 'ANYTYPE',
+    'break': 'BREAK',
+    'const': 'CONST',
+    'continue': 'CONTINUE',
+    'else': 'ELSE',
+    'enum': 'ENUM',
+    'false': 'FALSE',
+    'fn': 'FN',
+    'for': 'FOR',
+    'if': 'IF',
+    'or': 'OR',
+    'orelse': 'ORELSE',
+    'pub': 'PUB',
+    'return': 'RETURN',
+    'struct': 'STRUCT',
+    'switch': 'SWITCH',
+    'true': 'TRUE',
+    'union': 'UNION',
+    'undefined': 'UNDEFINED',
+    'while': 'WHILE',
+    'var': 'VAR',
+    'void': 'VOID',
+    'i8': 'I8',
+    'u8': 'U8',
+    'i16': 'I16',
+    'u16': 'U16',
+    'i32': 'I32',
+    'u32': 'U32',
+    'i64': 'I64',
+    'u64': 'U64',
+    'i128': 'I128',
+    'u128': 'U128'
 
 }
 
@@ -262,9 +262,9 @@ t_TILDE = r'~'
 
 
 def main():
-   f = open("exemplo.zig", "r")
+  
    lexer = lex.lex(debug=1)
-   lexer.input(f.read())
+   lexer.input("pub fun main()void { var x = 10; if (x > 5) { x += 1; } else { x -= 1; } }")
    print('\n\n# lexer output:')
    for tok in lexer:
       print ('type:', tok.type, ', value:',tok.value)

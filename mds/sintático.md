@@ -48,7 +48,7 @@ params -> ID : tipo_retorno |
 Um corpo pode conter comandos.
 
 ```
-corpo ->  comandos|
+corpo ->  comandos
 
 comandos -> comando |
             comando comandos     
