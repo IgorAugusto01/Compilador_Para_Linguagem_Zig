@@ -129,3 +129,113 @@ class Comandos_Comando_Comandos(ComandosAbstract):
 
     def accept(self, visitor):
         return visitor.visitComandos_Comando_Comandos(self)
+
+
+
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA TIPO_RETORNO  #########################
+
+
+class Tipo_RetornoAbstract(ABC):
+
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+
+class Tipo_Retorno_Void(Tipo_Retorno):
+    def __init__(self, void):
+        self.void = void
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_Void(self)
+
+
+
+class Tipo_Retorno_I8(Tipo_Retorno):
+    def __init__(self, i8):
+        self.i8 = i8
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I8(self)
+
+
+
+class Tipo_Retorno_U8(Tipo_Retorno):
+    def __init__(self, u8):
+        self.u8 = u8
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_U8(self)
+
+
+
+class Tipo_Retorno_I16(Tipo_Retorno):
+    def __init__(self, i16):
+        self.i16 = i16
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+class Tipo_Retorno_U16(Tipo_Retorno):
+    def __init__(self, u16):
+        self.u16 = u16
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+class Tipo_Retorno_I32(Tipo_Retorno):
+    def __init__(self, i32):
+        self.i32 = i32
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+class Tipo_Retorno_U32(Tipo_Retorno):
+    def __init__(self, u32):
+        self.u32 = u32
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+
+class Tipo_Retorno_I64(Tipo_Retorno):
+    def __init__(self, i64):
+        self.i64 = i64
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+
+class Tipo_Retorno_I128(Tipo_Retorno):
+    def __init__(self, i128):
+        self.i128 = i128
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+
+class Tipo_Retorno_U128(Tipo_Retorno):
+    def __init__(self, u128):
+        self.u128 = u128
+
+    def accept(self, visitor):
+        return visitor.visitTipo_Retorno_I16(self)
+
+
+
+
+
+    
+    
