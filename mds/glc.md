@@ -70,6 +70,18 @@ expr -> ID |
         ID "*" expr |
         ID ">" expr |
         ID "<" expr |
+        ID "==" ID  |
+        ID "and" ID |
+        ID "or"  ID |
+        INTEGER "==" ID  |
+        INTEGER "and" ID |
+        INTEGER "or"  ID |
+        ID "=="  INTEGER |
+        ID "and" INTEGER |
+        ID "or"  INTEGER |
+        INTEGER "=="  INTEGER |
+        INTEGER "and" INTEGER |
+        INTEGER "or"  INTEGER |
         TRUE        |  
         FALSE       |    
         call
