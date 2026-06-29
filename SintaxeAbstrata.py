@@ -516,9 +516,9 @@ class Expr_ID(ExprAbstract):
         return visitor.visitExpr_ID(self)
 
 
-class Expr_ID_Expr(ExprAbstract):
+class Expr_ID_Acesso(ExprAbstract):
 
-    def __init__(self, id, expr):
+    def __init__(self, id, acesso):
         self.id = id
         self.expr = expr
 

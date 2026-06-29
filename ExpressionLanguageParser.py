@@ -2,15 +2,7 @@ import ply.yacc as yacc
 from ExpressionLanguageLex import *
 import SintaxeAbstrata as sa
 
-def p_error(p):
-    if p is None:
-        print("Erro sintático: fim inesperado do arquivo.")
-        return
 
-    print(
-        f"Erro sintático na linha {p.lineno}, "
-        f"token={p.type}, valor={p.value}"
-    )
 
 
 
@@ -284,28 +276,7 @@ def p_comando_sub_sat_eq(p):
         raise SyntaxError("'_' não pode ser usado com '-|='")
     p[0] = sa.Comando_ID_Expr_12(p[1], p[3])
     
-
-def p_comando_for(p):
-    'comando : FOR LPAREN expr DOT2 expr RPAREN PIPE ID PIPE LBRACE comandos RBRACE'
-    p[0] = sa.Comando_For(
-        p[3],
-        p[5],
-        p[8],
-        p[11]
-    )
     
-    
-def p_comando_while(p):
-    'comando : WHILE LPAREN expr RPAREN LBRACE comandos RBRACE'
-    p[0] = sa.Comando_Expr_Comandos(
-        p[3],
-        p[6]
-    )
-    
-    
-def p_comando_return(p):
-    'comando : RETURN expr SEMICOLON'
-    p[0] = sa.Comando_Expr_13(p[2])
     
     
     
@@ -420,44 +391,18 @@ def p_expr_call(p):
     'expr : call'
     p[0] = sa.Expr_Call(p[1])
     
-
     
     
     
-def p_call_id_id(p):
-    'call : ID DOT ID LPAREN RPAREN'
-    p[0] = sa.Call_ID_ID(
-        p[1],
-        p[3]
-    )
+    
+def p_call_id_args(p):
+    'call : ID LARROW args RARROW'
+    p[0] = sa.Call_ID_Args(p[1], p[3])
 
 
-def p_call_id_id_args(p):
-    'call : ID DOT ID LPAREN args RPAREN'
-    p[0] = sa.Call_ID_ID_Args(
-        p[1],
-        p[3],
-        p[5]
-    )
-
-
-def p_call_id_id_id(p):
-    'call : ID DOT ID DOT ID LPAREN RPAREN'
-    p[0] = sa.Call_ID_ID_ID(
-        p[1],
-        p[3],
-        p[5]
-    )
-
-
-def p_call_id_id_id_args(p):
-    'call : ID DOT ID DOT ID LPAREN args RPAREN'
-    p[0] = sa.Call_ID_ID_ID_Args(
-        p[1],
-        p[3],
-        p[5],
-        p[7]
-    )
+def p_call_id(p):
+    'call : ID LARROW RARROW'
+    p[0] = sa.Call_ID(p[1])
 
 
 def p_args_expr_args(p):

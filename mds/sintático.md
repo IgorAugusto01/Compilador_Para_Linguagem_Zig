@@ -83,7 +83,7 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
 As expressões são todas as possibilidades de retorno. Estão escritas abaixo.
 ```
 expr -> ID |
-        ID "." expr |
+        ID "." acesso |
         INTEGER |
         CHAR|
         STRING|
@@ -116,13 +116,13 @@ expr -> ID |
         INTEGER "or"  INTEGER |
         TRUE        |  
         FALSE       |    
-        call        |
-        acesso
-   ``` 
+   ```
 
+   ```
    acesso ->
-      ID "." ID
-    | acesso "." ID```
+      ID
+      ID  "." acesso |
+      call
    ```
 
 
