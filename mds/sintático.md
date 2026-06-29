@@ -76,7 +76,7 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
               ID "-|" expr ";"|
               ID "-|=" expr ";"|
               WHILE "(expr")" "{"comandos"}" |
-              FOR "("expr ".." expr ")" |
+              FOR "("expr ".." expr ")" "|" expr "|" "{"comandos"}"|
               RETURN expr ";"
 ```
 
@@ -104,15 +104,23 @@ expr -> ID |
         ID "<" expr |
         TRUE        |  
         FALSE       |    
-        call
+        call        |
+        acesso
    ``` 
+
+   acesso ->
+      ID "." ID
+    | acesso "." ID```
+   ```
 
 
 Chamadas de função podem ser expressas com ou sem argumentos: 
 
  ```       
-call -> ID "("args")" |
-        ID "("")"
+call -> ID "." ID "(" ")"
+call -> ID "." ID "(" args ")"
+call -> ID "." ID "." ID "(" ")"
+call -> ID "." ID "." ID "(" args ")"
 
 args -> expr "," args |
         expr              
