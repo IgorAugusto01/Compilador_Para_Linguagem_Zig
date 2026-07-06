@@ -1,15 +1,15 @@
 ```
 programa -> funcao  |
-            comandos |
+            decl |
             funcao programa |
-            comandos programa
+            decl programa
 
 
-funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"corpo"}" |
-        "pub" "fn" ID "()" tipo_retorno "{"corpo"}" |
+funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"decl_interna"}" |
+        "pub" "fn" ID "()" tipo_retorno "{"decl_interna"}" |
 
-          "fn" ID "("params")" tipo_retorno "{"corpo"}|
-          "fn" ID "()" tipo_retorno "{"corpo"}"
+          "fn" ID "("params")" tipo_retorno "{"decl_interna"}|
+          "fn" ID "()" tipo_retorno "{"decl_interna"}"
 
 tipo_retorno -> "void" |
                   "i8" |
@@ -23,18 +23,10 @@ tipo_retorno -> "void" |
                 "i128" |
                 "u128
 
-corpo -> comandos
 
-comandos -> comando |
-            comando comandos
-
-comando -> "var" ID ":" tipo_retorno "=" expr ";" |
+decl -> "var" ID ":" tipo_retorno "=" expr ";" |
               "const" ID = expr ";"|
               "const" ID ":" tipo_retorno "=" expr ";" |
-              "var" ID ":" tipo_retorno "=" "("expr")" ";" |
-              "const" ID = "("expr") ";"|
-              "const" ID ":" tipo_retorno "=" "("expr")" ";" |
-              "_" "=" expr ";" |
               ID "=" expr ";" | 
               ID "+=" expr ";"|
               ID "+%" expr ";"|
@@ -46,52 +38,59 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
               ID "-%=" expr ";"|
               ID "-|" expr ";"|
               ID "-|=" expr ";"|
-              WHILE "(expr")" "{"comandos"}" |
-              FOR "("expr ".." expr ")" |
+
+decl_interna -> "var" ID ":" tipo_retorno "=" expr ";" |
+              "const" ID = expr ";"|
+              "const" ID ":" tipo_retorno "=" expr ";" |
+              ID "=" expr ";" | 
+              ID "+=" expr ";"|
+              ID "+%" expr ";"|
+              ID "+%=" expr ";"|
+              ID "+|" expr ";"|
+              ID "+|=" expr ";"|
+              ID "-=" expr ";"|
+              ID "-%" expr ";"|
+              ID "-%=" expr ";"|
+              ID "-|" expr ";"|
+              ID "-|=" expr ";"|
+              BREAK ";"
               RETURN expr ";"
+              WHILE "(expr")" "{"comandos"}" |
+              FOR "("expr ".." expr ")" "|" expr "|" {"comandos"}"|
+              IF "("expr ")"{"comandos"}
 
 expr -> ID |
         ID "." expr |
-        INTEGER |
+        INTEGER
         CHAR|
         STRING|
-        BUILTINIDENTIFIER "(STRING)" |
-        BUILTINIDENTIFIER "(STRING)" "." expr|
-        INTEGER "+" expr |
-        INTEGER "+" expr |
-        INTEGER "-" expr |
-        INTEGER "/" expr |
-        INTEGER "*" expr |
-        INTEGER ">" expr |
-        INTEGER "<" expr |
-        ID "+" expr |
-        ID "-" expr |
-        ID "/" expr |
-        ID "*" expr |
-        ID ">" expr |
-        ID "<" expr |
-        ID "==" ID  |
-        ID "and" ID |
-        ID "or"  ID |
-        INTEGER "==" ID  |
-        INTEGER "and" ID |
-        INTEGER "or"  ID |
-        ID "=="  INTEGER |
-        ID "and" INTEGER |
-        ID "or"  INTEGER |
-        INTEGER "=="  INTEGER |
-        INTEGER "and" INTEGER |
-        INTEGER "or"  INTEGER |
+        BUILTINIDENTIFIER "(expr)" |
+       BUILTINIDENTIFIER "(expr)" "." expr|
+       expr "+" expr |
+       expr "-" expr |
+       expr "/" expr |
+       expr "*" expr |
+       expr ">" expr |
+       expr "<" expr |
+       expr "%" expr |
+       expr "==" expr  |
+       expr "and" expr |
+       expr "or"  expr |
+       expr "==" expr |
+       expr "and"expr |
+       expr "or" expr |
         TRUE        |  
         FALSE       |    
         call
 
-call -> ID "("args")" |
-        ID "("")"
+call -> expr "("args")" |
+        expr "("")"
+        expr "("args "," "." "{"args"}" ")" |
+        expr "("args "," "." "{"args"}" ")" 
 
 args -> expr "," args |
         expr
 
-params -> ID : tipo_retorno |
-          ID : tipo_retorno, params |
+params -> expr : tipo_retorno |
+          expr : tipo_retorno, params |
 ```

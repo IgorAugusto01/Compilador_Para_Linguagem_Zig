@@ -2,420 +2,442 @@ import ply.yacc as yacc
 from ExpressionLanguageLex import *
 import SintaxeAbstrata as sa
 
+########################## REGRAS DE PRODUÇÃO PARA O PARSER #########################
 
 
 
+
+def p_error(p):
+    if p:
+        print(f"Erro sintático em '{p.value}' (linha {p.lineno})")
+    else:
+        print("Erro sintático: fim inesperado do arquivo.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+###### Variável Programa #######
 
 def p_programa_funcao(p):
     'programa : funcao'
     p[0] = sa.Programa_Funcao(p[1])
 
-def p_programa_comandos(p):
-    'programa : comandos'
-    p[0] = sa.Programa_Comandos(p[1])
+# def p_programa_comandos(p):
+#     'programa : comandos'
+#     p[0] = sa.Programa_Comandos(p[1])
 
 def p_programa_funcao_programa(p):
     'programa : funcao programa'
     p[0] = sa.Programa_Funcao_Programa(p[1], p[2])
 
-def p_programa_comandos_programa(p):
-    'programa : comandos programa'
-    p[0] = sa.Programa_Comandos_Programa(p[1], p[2])
+# def p_programa_comandos_programa(p):
+#     'programa : comandos programa'
+#     p[0] = sa.Programa_Comandos_Programa(p[1], p[2])
     
       
       
-def p_funcao_pub_fn_params(p):
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+###### REGRAS PARA FUNCAO #######  
+
+
+def p_funcao_pub_fn_no_params_sem_corpo(p):
+    '''funcao : PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE'''
+    
+    p[0] = sa.Funcao_Pub_Fn_No_Params_Sem_Corpo(p[7])
+    
+def p_funcao_fn_no_params_sem_corpo(p):
+    '''funcao : FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE'''
+    
+    p[0] = sa.Funcao_Fn_No_Params_Sem_Corpo(p[6])
+    
+def p_funcao_pub_fn_params_sem_corpo(p):
+    '''funcao : PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE'''
+    
+    p[0] = sa.Funcao_Pub_Fn_Params_Sem_Corpo(p[5], p[8])
+
+def p_funcao_fn_params_sem_corpo(p):
+    '''funcao : FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE'''
+    
+    p[0] = sa.Funcao_Fn_Params_Sem_Corpo(p[4], p[7])
+
+def p_funcao_pub_fn_params_corpo(p):
+    '''funcao : PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE'''
+    
+    p[0] = sa.Funcao_Pub_Fn_Params_Corpo(p[5], p[8], p[10]) 
+    
+def p_funcao_fn_params_corpo(p):
+    '''funcao : FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE'''
+    
+    p[0] = sa.Funcao_Fn_Params_Corpo(p[4], p[7], p[9])
+    
+def p_funcao_pub_fn_no_params_corpo(p):
+    '''funcao : PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE'''
+    
+    p[0] = sa.Funcao_Pub_Fn_No_Params_Corpo(p[7], p[9])
+
+def p_funcao_fn_no_params_corpo(p):
+    '''funcao : FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE'''
+    
+    p[0] = sa.Funcao_Fn_No_Params_Corpo(p[6], p[8])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### REGRA TIPO_RETORNO #####
+
+def p_tipo_retorno(p):
     '''
-    funcao : PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    tipo_retorno : VOID
+                  | I8
+                  | U8
+                  | I16
+                  | U16
+                  | I32
+                  | U32
+                  | I64
+                  | U64
     '''
-    p[0] = sa.Funcao_Pub_Fn_Params(
-        p[3],  # ID
-        p[5],  # params
-        p[7],  # tipo_retorno
-        p[9]   # corpo
-    )
-
-
-def p_funcao_pub_fn(p):
+    p[0] = sa.Tipo_Retorno(p[1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ #### REGRAS PARA PARAMS ###### 
+def p_params_tipo_retorno(p):
     '''
-    funcao : PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+    params : ID COLON tipo_retorno
     '''
-    p[0] = sa.Funcao_Pub_Fn(
-        p[3],  # ID
-        p[6],  # tipo_retorno
-        p[8]   # corpo
-    )
-
-
-def p_funcao_fn_params(p):
+    
+    p[0] = sa.Params_Tipo_Retorno(p[3])
+    
+def p_params_tipo_retorno_params(p):
     '''
-    funcao : FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    params : ID COLON tipo_retorno COMMA params
     '''
-    p[0] = sa.Funcao_Fn_Params(
-        p[2],  # ID
-        p[4],  # params
-        p[6],  # tipo_retorno
-        p[8]   # corpo
-    )
-
-
-def p_funcao_fn(p):
+    
+    p[0] = sa.Params_Tipo_Retorno_Params(p[3], p[5])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+###### REGRAS PARA CORPO #######
+    
+    
+    
+def p_corpo_comandos(p):
     '''
-    funcao : FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+    corpo : comandos
     '''
-    p[0] = sa.Funcao_Fn(
-        p[2],  # ID
-        p[5],  # tipo_retorno
-        p[7]   # corpo
-    )
-
-
-
-
-def p_comandos_comando(p):
-    'comandos : comando'
-    p[0] = sa.Comandos_Comando(p[1])
-
-
-
-
-def p_comandos_comando_comandos(p):
-    'comandos : comando comandos'
-    p[0] = sa.Comandos_Comando_Comandos(
-        p[1],
-        p[2]
-    )
-
-
-
-
-def p_tipo_retorno_void(p):
-    'tipo_retorno : VOID'
-    p[0] = sa.TipoRetorno_Void()
-
-def p_tipo_retorno_i8(p):
-    'tipo_retorno : I8'
-    p[0] = sa.TipoRetorno_I8()
-
-def p_tipo_retorno_u8(p):
-    'tipo_retorno : U8'
-    p[0] = sa.TipoRetorno_U8()
-
-def p_tipo_retorno_i16(p):
-    'tipo_retorno : I16'
-    p[0] = sa.TipoRetorno_I16()
-
-def p_tipo_retorno_u16(p):
-    'tipo_retorno : U16'
-    p[0] = sa.TipoRetorno_U16()
-
-def p_tipo_retorno_i32(p):
-    'tipo_retorno : I32'
-    p[0] = sa.TipoRetorno_I32()
-
-def p_tipo_retorno_u32(p):
-    'tipo_retorno : U32'
-    p[0] = sa.TipoRetorno_U32()
-
-def p_tipo_retorno_i64(p):
-    'tipo_retorno : I64'
-    p[0] = sa.TipoRetorno_I64()
-
-def p_tipo_retorno_u64(p):
-    'tipo_retorno : U64'
-    p[0] = sa.TipoRetorno_U64()
-
-def p_tipo_retorno_i128(p):
-    'tipo_retorno : I128'
-    p[0] = sa.TipoRetorno_I128()
-
-def p_tipo_retorno_u128(p):
-    'tipo_retorno : U128'
-    p[0] = sa.TipoRetorno_U128()
-
-
-
-def p_corpo(p):
-    'corpo : comandos'
     p[0] = sa.Corpo_Comandos(p[1])
-
-
-
-
-def p_params_id_tipo_retorno(p):
-    'params : ID COLON tipo_retorno'
-    p[0] = sa.Params_ID_TipoRetorno(
-        p[1],
-        p[3]
-    )
-
-
-def p_params_id_tipo_retorno_params(p):
-    'params : ID COLON tipo_retorno COMMA params'
-    p[0] = sa.Params_ID_TipoRetorno_Params(
-        p[1],
-        p[3],
-        p[5]
-    )
-
-
-def p_comando_var_id_tipo_expr(p):
-    'comando : VAR ID COLON tipo_retorno EQUAL expr SEMICOLON'
-    p[0] = sa.Comando_ID_TipoRetorno_Expr(p[2], p[4], p[6])
-
-
-def p_comando_const_id_expr(p):
-    'comando : CONST ID EQUAL expr SEMICOLON'
-    p[0] = sa.Comando_ID_Expr(p[2], p[4])
-
-
-def p_comando_const_id_tipo_expr(p):
-    'comando : CONST ID COLON tipo_retorno EQUAL expr SEMICOLON'
-    p[0] = sa.Comando_ID_TipoRetorno_Expr_2(p[2], p[4], p[6])
-
-
-def p_comando_var_id_tipo_paren_expr(p):
-    'comando : VAR ID COLON tipo_retorno EQUAL LPAREN expr RPAREN SEMICOLON'
-    p[0] = sa.Comando_ID_TipoRetorno_Expr_3(p[2], p[4], p[7])
-
-
-def p_comando_const_id_paren_expr(p):
-    'comando : CONST ID EQUAL LPAREN expr RPAREN SEMICOLON'
-    p[0] = sa.Comando_ID_Expr_2(p[2], p[5])
-
-
-def p_comando_const_id_tipo_paren_expr(p):
-    'comando : CONST ID COLON tipo_retorno EQUAL LPAREN expr RPAREN SEMICOLON'
-    p[0] = sa.Comando_ID_TipoRetorno_Expr_4(p[2], p[4], p[7])
-
-
-def p_comando_atribuicao(p):
-    'comando : ID EQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        p[0] = sa.Comando_Expr(p[3])         
-    else:
-        p[0] = sa.Comando_ID_Expr_3(p[1], p[3])
-
-def p_comando_add_eq(p):
-    'comando : ID PLUSEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '+='")
-    p[0] = sa.Comando_ID_Expr_4(p[1], p[3])
-
-
-def p_comando_add_mod(p):
-    'comando : ID PLUSPERCENT expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '+%'")
-    p[0] = sa.Comando_ID_Expr_5(p[1], p[3])
-
-
-def p_comando_add_mod_eq(p):
-    'comando : ID PLUSPERCENTEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '+%='")
-    p[0] = sa.Comando_ID_Expr_6(p[1], p[3])
-
-
-def p_comando_add_sat(p):
-    'comando : ID PLUSPIPE expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '+|'")
-    p[0] = sa.Comando_ID_Expr_7(p[1], p[3])
-
-
-def p_comando_add_sat_eq(p):
-    'comando : ID PLUSPIPEEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '+|='")
-    p[0] = sa.Comando_ID_Expr_8(p[1], p[3])
-
-
-def p_comando_sub_eq(p):
-    'comando : ID MINUSEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '-='")
-    p[0] = sa.Comando_ID_Expr_9(p[1], p[3])
-
-
-def p_comando_sub_mod(p):
-    'comando : ID MINUSPERCENT expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '-%'")
-    p[0] = sa.Comando_ID_Expr_10(p[1], p[3])
-
-
-def p_comando_sub_mod_eq(p):
-    'comando : ID MINUSPERCENTEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '-%='")
-    p[0] = sa.Comando_ID_Expr_11(p[1], p[3])
-
-
-def p_comando_sub_sat(p):
-    'comando : ID MINUSPIPE expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '-|'")
-    p[0] = sa.Comando_ID_Expr_12(p[1], p[3])
-
-
-def p_comando_sub_sat_eq(p):
-    'comando : ID MINUSPIPEEQUAL expr SEMICOLON'
-
-    if p[1] == "_":
-        raise SyntaxError("'_' não pode ser usado com '-|='")
-    p[0] = sa.Comando_ID_Expr_12(p[1], p[3])
+    
+    
+    
+    
+###### REGRAS PARA COMANDOS #######
+    
+def p_comandos_comando(p):
+    '''
+    comandos : comando
+    '''
+    p[0] = sa.Comandos_Comando(p[1])
+    
+def p_comandos_comando_comandos(p):
+    '''
+    comandos : comando  comandos
+    '''
+    p[0] = sa.Comandos_Comando_Comandos(p[1], p[2])
     
     
     
     
     
+###### REGRAS PARA COMANDO #######
+
+def p_comando_var(p):
+    '''
+    comando : VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    '''
+    p[0] = sa.Comando_Var(p[4], p[6])
+ 
+def p_comando_const_expr(p):
+       
+    '''comando : CONST ID EQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Const_Expr(p[4])
+    
+    
+def p_comando_const_tipo_retorno_expr(p):
+    '''comando : CONST ID COLON tipo_retorno EQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Const_Tipo_Retorno_Expr(p[4], p[6])   
+    
+def p_comando_id_equal_expr(p):
+    '''comando : ID EQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Equal_Expr(p[3]) 
+
+
+def p_comando_id_plus_equal_expr(p):
+    '''comando : ID PLUSEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Plus_Equal_Expr(p[3])  
+    
+def p_comando_id_plus_percent_expr(p):
+    '''comando : ID PLUSPERCENT expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Plus_Percent_Expr(p[3])
+
+def p_comando_id_plus_percent_equal_expr(p):
+    '''comando : ID PLUSPERCENTEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Plus_Percent_Equal_Expr(p[3])
+
+def p_comando_id_plus_pipe_expr(p):
+    '''comando : ID PLUSPIPE expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Plus_Pipe_Expr(p[3])
+    
+def p_comando_id_plus_pipe_equal_expr(p):
+    '''comando : ID PLUSPIPEEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Plus_Pipe_Equal_Expr(p[3])
+    
+
+def p_comando_id_minus_equal_expr(p):
+    '''comando : ID MINUSEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Minus_Equal_Expr(p[3])
+
+def p_comando_id_minus_percent_expr(p):
+    '''comando : ID MINUSPERCENT expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Minus_Percent_Expr(p[3])
+
+def p_comando_id_minus_percent_equal_expr(p):
+    '''comando : ID MINUSPERCENTEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Minus_Percent_Equal_Expr(p[3])
+
+def p_comando_id_minus_pipe_expr(p):
+    '''comando : ID MINUSPIPE expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Minus_Pipe_Expr(p[3])
+
+def p_comando_id_minus_pipe_equal_expr(p):
+    '''comando : ID MINUSPIPEEQUAL expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Id_Minus_Pipe_Equal_Expr(p[3])
+    
+def p_comando_while(p):
+    '''comando : WHILE LPAREN expr RPAREN LBRACE comandos RBRACE'''
+    
+    p[0] = sa.Comando_While(p[3], p[6])
+
+def p_comando_for(p):
+    '''comando : FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE'''
+    
+    p[0] = sa.Comando_For(p[3], p[4], p[6], p[9])
+    
+def p_comando_return(p):
+    '''comando : RETURN expr SEMICOLON'''
+    
+    p[0] = sa.Comando_Return(p[2])
+
+def p_comando_if(p):
+    '''comando : IF LPAREN expr RPAREN LBRACE comandos RBRACE'''
+    
+    p[0] = sa.Comando_If(p[3], p[6])
+
+def p_comando_break(p):
+    '''comando : BREAK SEMICOLON'''
+    
+    p[0] = sa.Comando_Break(p[1])
+    
+
+    
+#### REGRAS PARA EXPR ####
+
+
 def p_expr_id(p):
-    'expr : ID'
-    p[0] = sa.Expr_ID(p[1])
-
+    '''expr : ID'''
+    
+    p[0] = sa.Expr_Id(p[1])
 
 def p_expr_id_expr(p):
-    'expr : ID DOT expr'
-    p[0] = sa.Expr_ID_Expr(p[1], p[3])
-
-
+    '''x : ID DOT expr'''
+    
+    p[0] = sa.Expr_Id_Expr(p[1], p[3])
+    
 def p_expr_integer(p):
-    'expr : INTEGER'
-    p[0] = sa.Expr_INTEGER(p[1])
-
-
+    '''x : INTEGER'''
+    
+    p[0] = sa.Expr_Integer(p[1])
+    
 def p_expr_char(p):
-    'expr : CHAR'
-    p[0] = sa.Expr_CHAR(p[1])
-
+    '''x : CHAR'''
+    
+    p[0] = sa.Expr_Char(p[1])
 
 def p_expr_string(p):
-    'expr : STRING'
-    p[0] = sa.Expr_STRING(p[1])
+    '''x : STRING'''
+    
+    p[0] = sa.Expr_String(p[1])
 
+def p_expr_builtin_identifier(p):
+    '''x : BUILTINIDENTIFIER LPAREN expr RPAREN'''
+    
+    p[0] = sa.Expr_Builtin_Identifier(p[3])
 
-def p_expr_builtin_string(p):
-    'expr : BUILTINIDENTIFIER LPAREN STRING RPAREN'
-    p[0] = sa.Expr_BUILTINIDENTIFIER_STRING(p[1], p[3])
+def p_expr_builtin_identifier_expr(p):
+    '''x : BUILTINIDENTIFIER LPAREN expr RPAREN DOT expr'''
+    
+    p[0] = sa.Expr_Builtin_Identifier_Expr(p[3], p[6])
+    
 
+def p_expr_plus_expr(p):
+    '''x : expr PLUS expr'''
+    
+    p[0] = sa.Expr_Plus_Expr(p[1], p[3])
 
-def p_expr_builtin_string_expr(p):
-    'expr : BUILTINIDENTIFIER LPAREN STRING RPAREN DOT expr'
-    p[0] = sa.Expr_BUILTINIDENTIFIER_STRING_Expr(p[1], p[3], p[6])
+def p_expr_minus_expr(p):
+    '''x : expr MINUS expr'''
+    
+    p[0] = sa.Expr_Minus_Expr(p[1], p[3])
 
+def p_expr_div_expr(p):
+    '''x : expr SLASH expr'''
+    
+    p[0] = sa.Expr_Div_Expr(p[1], p[3])
 
-def p_expr_integer_add(p):
-    'expr : INTEGER PLUS expr'
-    p[0] = sa.Expr_INTEGER_Expr(p[1], p[3])
+def p_expr_mult_expr(p):
+    '''x : expr ASTERISK expr'''
+    
+    p[0] = sa.Expr_Mult_Expr(p[1], p[3])
+    
 
+def p_expr_rarrow_expr(p):
+    '''x : expr RARROW expr'''
+    
+    p[0] = sa.Expr_Rarrow_Expr(p[1], p[3])
 
+def p_expr_larrow_expr(p):
+    '''x : expr LARROW expr'''
+    p[0] = sa.Expr_Larrow_Expr(p[1], p[3])
 
+def p_expr_mod_expr(p):
+    '''x : expr PERCENT expr'''
+    p[0] = sa.Expr_Mod_Expr(p[1], p[3])
 
-def p_expr_integer_sub(p):
-    'expr : INTEGER MINUS expr'
-    p[0] = sa.Expr_INTEGER_Expr_3(p[1], p[3])
+def p_expr_equal_equal_expr(p):
+    '''x : expr EQUALEQUAL expr'''
+    p[0] = sa.Expr_Equal_Equal_Expr(p[1], p[3])
 
+def p_expr_and_expr(p):
+    '''x : expr AND expr'''
+    p[0] = sa.Expr_And_Expr(p[1], p[3])
 
-def p_expr_integer_div(p):
-    'expr : INTEGER SLASH expr'
-    p[0] = sa.Expr_INTEGER_Expr_4(p[1], p[3])
-
-
-def p_expr_integer_mul(p):
-    'expr : INTEGER ASTERISK expr'
-    p[0] = sa.Expr_INTEGER_Expr_5(p[1], p[3])
-
-
-def p_expr_integer_gt(p):
-    'expr : INTEGER RARROW expr'
-    p[0] = sa.Expr_INTEGER_Expr_6(p[1], p[3])
-
-
-def p_expr_integer_lt(p):
-    'expr : INTEGER LARROW expr'
-    p[0] = sa.Expr_INTEGER_Expr_6(p[1], p[3])
-
-
-def p_expr_id_add(p):
-    'expr : ID PLUS expr'
-    p[0] = sa.Expr_ID_Expr_2(p[1], p[3])
-
-
-def p_expr_id_sub(p):
-    'expr : ID MINUS expr'
-    p[0] = sa.Expr_ID_Expr_3(p[1], p[3])
-
-
-def p_expr_id_div(p):
-    'expr : ID SLASH expr'
-    p[0] = sa.Expr_ID_Expr_4(p[1], p[3])
-
-
-def p_expr_id_mul(p):
-    'expr : ID ASTERISK expr'
-    p[0] = sa.Expr_ID_Expr_5(p[1], p[3])
-
-
-def p_expr_id_gt(p):
-    'expr : ID RARROW expr'
-    p[0] = sa.Expr_ID_Expr_6(p[1], p[3])
-
-
-def p_expr_id_lt(p):
-    'expr : ID LARROW expr'
-    p[0] = sa.Expr_ID_Expr_7(p[1], p[3])
-
+def p_expr_or_expr(p):
+    '''x : expr OR expr'''
+    p[0] = sa.Expr_Or_Expr(p[1], p[3])
 
 def p_expr_true(p):
-    'expr : TRUE'
-    p[0] = sa.Expr_True()
+    '''x : TRUE'''
+    p[0] = sa.Expr_True(p[1])
 
-
-def p_expr_false(p):
-    'expr : FALSE'
-    p[0] = sa.Expr_False()
-
+def p_expr_false_expr(p):
+    '''x : FALSE'''
+    p[0] = sa.Expr_False(p[1]) 
 
 def p_expr_call(p):
-    'expr : call'
-    p[0] = sa.Expr_Call(p[1])
+    '''x : call'''
+    p[0] = sa.Expr_Call(p[1])  
     
     
-    
-    
-    
-def p_call_id_args(p):
-    'call : ID LARROW args RARROW'
-    p[0] = sa.Call_ID_Args(p[1], p[3])
+def p_call_expr_args(p):
+    '''call : expr LPAREN args RPAREN'''
+    p[0] = sa.Call_Expr_Args(p[1], p[3])
 
+def p_call_expr_no_args(p):
+    '''call : expr LPAREN RPAREN'''
+    p[0] = sa.Call_Expr_No_Args(p[1])
 
-def p_call_id(p):
-    'call : ID LARROW RARROW'
-    p[0] = sa.Call_ID(p[1])
-
+def p_call_expr_args1_args2(p):
+    '''call : expr LPAREN args  COMMA DOT LBRACE args RBRACE RPAREN'''
+    p[0] = sa.Call_Expr_Args1_Args2(p[1], p[3], p[7])
+    
+def p_call_expr_arg1_no_args2(p):
+    '''call : expr LPAREN args  COMMA DOT LBRACE RPAREN'''
+    p[0] = sa.Call_Expr_Arg1_No_Args2(p[1], p[3])
+    
+    
+    
+    
+    
+###### REGRAS PARA ARGS #########
 
 def p_args_expr_args(p):
-    'args : expr COMMA args'
-    p[0] = sa.Args_Expr_Args(p[1], p[3])
+    '''args : expr COMMA args'''
+    
+    p[0] = sa.Args_Expr_Args(p[1],p[3])
 
-
-def p_args_expr(p):
-    'args : expr'
+def p_args_exp(p):
+    '''args : expr'''
+    
     p[0] = sa.Args_Expr(p[1])
     
     
-    
+
 def main():
     f = open("ex/exemplo.zig", "r")
     lexer = lex.lex()

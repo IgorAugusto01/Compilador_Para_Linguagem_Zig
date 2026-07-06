@@ -3,7 +3,6 @@
 
 Um programa Zig pode ser composto por uma função e/ou comandos.
 
----
 ```
 programa -> funcao  |
             comandos |
@@ -16,9 +15,16 @@ As funções em Zig por padrão são privadas, elas podem ou não vir com o pref
 ```
 funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"corpo"}" |
         "pub" "fn" ID "()" tipo_retorno "{"corpo"}" |
+        
+        "pub" "fn" ID "("params")" tipo_retorno "{""}" |
+        "pub" "fn" ID "()" tipo_retorno "{""}" |
 
           "fn" ID "("params")" tipo_retorno "{"corpo"}|
           "fn" ID "()" tipo_retorno "{"corpo"}"
+
+
+          "fn" ID "("params")" tipo_retorno "{""}|
+          "fn" ID "()" tipo_retorno "{""}"
 ```
 
 Os tipos de retorno são:
@@ -76,14 +82,16 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
               ID "-|" expr ";"|
               ID "-|=" expr ";"|
               WHILE "(expr")" "{"comandos"}" |
-              FOR "("expr ".." expr ")" "|" expr "|" "{"comandos"}"|
+              FOR "("expr ".." expr ")" "|" expr "|" |
               RETURN expr ";"
+              "if" "("expr ")"{"comandos"}
+
 ```
 
 As expressões são todas as possibilidades de retorno. Estão escritas abaixo.
 ```
 expr -> ID |
-        ID "." acesso |
+        ID "." expr |
         INTEGER |
         CHAR|
         STRING|
@@ -116,13 +124,12 @@ expr -> ID |
         INTEGER "or"  INTEGER |
         TRUE        |  
         FALSE       |    
+        call 
    ```
 
    ```
-   acesso ->
-      ID
-      ID  "." acesso |
-      call
+  params -> ID : tipo_retorno |
+          ID : tipo_retorno, params |
    ```
 
 

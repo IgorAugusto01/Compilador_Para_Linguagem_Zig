@@ -4,12 +4,10 @@ Unused terminals:
 
     AMPERSAND
     AMPERSANDEQUAL
-    AND
     ANYTYPE
     ASTERISKEQUAL
     ASTERISKPERCENT
     ASTERISKPERCENTEQUAL
-    BREAK
     CARET
     CARETEQUAL
     CONTINUE
@@ -18,11 +16,10 @@ Unused terminals:
     DOTQUESTIONMARK
     ELSE
     ENUM
-    EQUALEQUAL
     EQUALRARROW
     EXCLAMATIONMARK
     EXCLAMATIONMARKEQUAL
-    IF
+    I128
     LARROW2
     LARROW2EQUAL
     LARROW2PIPE
@@ -31,10 +28,9 @@ Unused terminals:
     LBRACKET
     LINE_COMMENT
     MINUSRARROW
-    OR
     ORELSE
-    PERCENT
     PERCENTEQUAL
+    PIPE
     PIPE2
     PIPEEQUAL
     PLUS2
@@ -47,6 +43,7 @@ Unused terminals:
     STRUCT
     SWITCH
     TILDE
+    U128
     UNDEFINED
     UNION
 
@@ -54,15 +51,15 @@ Grammar
 
 Rule 0     S' -> programa
 Rule 1     programa -> funcao
-Rule 2     programa -> comandos
-Rule 3     programa -> funcao programa
-Rule 4     programa -> comandos programa
-Rule 5     funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
-Rule 6     funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
-Rule 7     funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
-Rule 8     funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
-Rule 9     comandos -> comando
-Rule 10    comandos -> comando comandos
+Rule 2     programa -> funcao programa
+Rule 3     funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+Rule 4     funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+Rule 5     funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+Rule 6     funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+Rule 7     funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+Rule 8     funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+Rule 9     funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+Rule 10    funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
 Rule 11    tipo_retorno -> VOID
 Rule 12    tipo_retorno -> I8
 Rule 13    tipo_retorno -> U8
@@ -72,175 +69,1873 @@ Rule 16    tipo_retorno -> I32
 Rule 17    tipo_retorno -> U32
 Rule 18    tipo_retorno -> I64
 Rule 19    tipo_retorno -> U64
-Rule 20    tipo_retorno -> I128
-Rule 21    tipo_retorno -> U128
+Rule 20    params -> ID COLON tipo_retorno
+Rule 21    params -> ID COLON tipo_retorno COMMA params
 Rule 22    corpo -> comandos
-Rule 23    params -> ID COLON tipo_retorno
-Rule 24    params -> ID COLON tipo_retorno COMMA params
+Rule 23    comandos -> comando
+Rule 24    comandos -> comando comandos
 Rule 25    comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
 Rule 26    comando -> CONST ID EQUAL expr SEMICOLON
 Rule 27    comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
-Rule 28    comando -> VAR ID COLON tipo_retorno EQUAL LPAREN expr RPAREN SEMICOLON
-Rule 29    comando -> CONST ID EQUAL LPAREN expr RPAREN SEMICOLON
-Rule 30    comando -> CONST ID COLON tipo_retorno EQUAL LPAREN expr RPAREN SEMICOLON
-Rule 31    comando -> ID EQUAL expr SEMICOLON
-Rule 32    comando -> ID PLUSEQUAL expr SEMICOLON
-Rule 33    comando -> ID PLUSPERCENT expr SEMICOLON
-Rule 34    comando -> ID PLUSPERCENTEQUAL expr SEMICOLON
-Rule 35    comando -> ID PLUSPIPE expr SEMICOLON
-Rule 36    comando -> ID PLUSPIPEEQUAL expr SEMICOLON
-Rule 37    comando -> ID MINUSEQUAL expr SEMICOLON
-Rule 38    comando -> ID MINUSPERCENT expr SEMICOLON
-Rule 39    comando -> ID MINUSPERCENTEQUAL expr SEMICOLON
-Rule 40    comando -> ID MINUSPIPE expr SEMICOLON
-Rule 41    comando -> ID MINUSPIPEEQUAL expr SEMICOLON
-Rule 42    comando -> FOR LPAREN expr DOT2 expr RPAREN PIPE ID PIPE LBRACE comandos RBRACE
-Rule 43    comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
-Rule 44    comando -> RETURN expr SEMICOLON
-Rule 45    expr -> ID
-Rule 46    expr -> ID DOT acesso
-Rule 47    expr -> INTEGER
-Rule 48    expr -> CHAR
-Rule 49    expr -> STRING
-Rule 50    expr -> BUILTINIDENTIFIER LPAREN STRING RPAREN
-Rule 51    expr -> BUILTINIDENTIFIER LPAREN STRING RPAREN DOT expr
-Rule 52    expr -> INTEGER PLUS expr
-Rule 53    expr -> INTEGER MINUS expr
-Rule 54    expr -> INTEGER SLASH expr
-Rule 55    expr -> INTEGER ASTERISK expr
-Rule 56    expr -> INTEGER RARROW expr
-Rule 57    expr -> INTEGER LARROW expr
-Rule 58    expr -> ID PLUS expr
-Rule 59    expr -> ID MINUS expr
-Rule 60    expr -> ID SLASH expr
-Rule 61    expr -> ID ASTERISK expr
-Rule 62    expr -> ID RARROW expr
-Rule 63    expr -> ID LARROW expr
-Rule 64    expr -> TRUE
-Rule 65    expr -> FALSE
-Rule 66    expr -> call
-Rule 67    expr -> acesso
-Rule 68    call -> ID DOT ID LPAREN RPAREN
-Rule 69    call -> ID DOT ID LPAREN args RPAREN
-Rule 70    call -> ID DOT ID DOT ID LPAREN RPAREN
-Rule 71    call -> ID DOT ID DOT ID LPAREN args RPAREN
-Rule 72    args -> expr COMMA args
-Rule 73    args -> expr
+Rule 28    comando -> ID EQUAL expr SEMICOLON
+Rule 29    comando -> ID PLUSEQUAL expr SEMICOLON
+Rule 30    comando -> ID PLUSPERCENT expr SEMICOLON
+Rule 31    comando -> ID PLUSPERCENTEQUAL expr SEMICOLON
+Rule 32    comando -> ID PLUSPIPE expr SEMICOLON
+Rule 33    comando -> ID PLUSPIPEEQUAL expr SEMICOLON
+Rule 34    comando -> ID MINUSEQUAL expr SEMICOLON
+Rule 35    comando -> ID MINUSPERCENT expr SEMICOLON
+Rule 36    comando -> ID MINUSPERCENTEQUAL expr SEMICOLON
+Rule 37    comando -> ID MINUSPIPE expr SEMICOLON
+Rule 38    comando -> ID MINUSPIPEEQUAL expr SEMICOLON
+Rule 39    comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+Rule 40    comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+Rule 41    comando -> RETURN expr SEMICOLON
+Rule 42    comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE
+Rule 43    comando -> BREAK SEMICOLON
+Rule 44    expr -> ID
+Rule 45    x -> ID DOT expr
+Rule 46    x -> INTEGER
+Rule 47    x -> CHAR
+Rule 48    x -> STRING
+Rule 49    x -> BUILTINIDENTIFIER LPAREN expr RPAREN
+Rule 50    x -> BUILTINIDENTIFIER LPAREN expr RPAREN DOT expr
+Rule 51    x -> expr PLUS expr
+Rule 52    x -> expr MINUS expr
+Rule 53    x -> expr SLASH expr
+Rule 54    x -> expr ASTERISK expr
+Rule 55    x -> expr RARROW expr
+Rule 56    x -> expr LARROW expr
+Rule 57    x -> expr PERCENT expr
+Rule 58    x -> expr EQUALEQUAL expr
+Rule 59    x -> expr AND expr
+Rule 60    x -> expr OR expr
+Rule 61    x -> TRUE
+Rule 62    x -> FALSE
+Rule 63    x -> call
+Rule 64    call -> expr LPAREN args RPAREN
+Rule 65    call -> expr LPAREN RPAREN
+Rule 66    call -> expr LPAREN args COMMA DOT LBRACE args RBRACE RPAREN
+Rule 67    call -> expr LPAREN args COMMA DOT LBRACE RPAREN
+Rule 68    args -> expr COMMA args
+Rule 69    args -> expr
 
 Terminals, with rules where they appear
 
 AMPERSAND            : 
 AMPERSANDEQUAL       : 
-AND                  : 
+AND                  : 59
 ANYTYPE              : 
-ASTERISK             : 55 61
+ASTERISK             : 54
 ASTERISKEQUAL        : 
 ASTERISKPERCENT      : 
 ASTERISKPERCENTEQUAL : 
-BREAK                : 
-BUILTINIDENTIFIER    : 50 51
+BREAK                : 43
+BUILTINIDENTIFIER    : 49 50
 CARET                : 
 CARETEQUAL           : 
-CHAR                 : 48
-COLON                : 23 24 25 27 28 30
-COMMA                : 24 72
-CONST                : 26 27 29 30
+CHAR                 : 47
+COLON                : 20 21 25 27
+COMMA                : 21 66 67 68
+CONST                : 26 27
 CONTINUE             : 
-DOT                  : 46 51 68 69 70 70 71 71
-DOT2                 : 42
+DOT                  : 45 50 66 67
+DOT2                 : 40
 DOT3                 : 
 DOTASTERISK          : 
 DOTQUESTIONMARK      : 
 ELSE                 : 
 ENUM                 : 
-EQUAL                : 25 26 27 28 29 30 31
-EQUALEQUAL           : 
+EQUAL                : 25 26 27 28
+EQUALEQUAL           : 58
 EQUALRARROW          : 
 EXCLAMATIONMARK      : 
 EXCLAMATIONMARKEQUAL : 
-FALSE                : 65
-FN                   : 5 6 7 8
-FOR                  : 42
-I128                 : 20
+FALSE                : 62
+FN                   : 3 4 5 6 7 8 9 10
+FOR                  : 40
+I128                 : 
 I16                  : 14
 I32                  : 16
 I64                  : 18
 I8                   : 12
-ID                   : 5 6 7 8 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 45 46 58 59 60 61 62 63 68 68 69 69 70 70 70 71 71 71
-IF                   : 
-INTEGER              : 47 52 53 54 55 56 57
-LARROW               : 57 63
+ID                   : 3 4 5 6 7 8 9 10 20 21 25 26 27 28 29 30 31 32 33 34 35 36 37 38 44 45
+IF                   : 42
+INTEGER              : 40 40 46
+LARROW               : 56
 LARROW2              : 
 LARROW2EQUAL         : 
 LARROW2PIPE          : 
 LARROW2PIPEEQUAL     : 
 LARROWEQUAL          : 
-LBRACE               : 5 6 7 8 42 43
+LBRACE               : 3 4 5 6 7 8 9 10 39 40 42 66 67
 LBRACKET             : 
 LINE_COMMENT         : 
-LPAREN               : 5 6 7 8 28 29 30 42 43 50 51 68 69 70 71
-MINUS                : 53 59
-MINUSEQUAL           : 37
-MINUSPERCENT         : 38
-MINUSPERCENTEQUAL    : 39
-MINUSPIPE            : 40
-MINUSPIPEEQUAL       : 41
+LPAREN               : 3 4 5 6 7 8 9 10 39 40 42 49 50 64 65 66 67
+MINUS                : 52
+MINUSEQUAL           : 34
+MINUSPERCENT         : 35
+MINUSPERCENTEQUAL    : 36
+MINUSPIPE            : 37
+MINUSPIPEEQUAL       : 38
 MINUSRARROW          : 
-OR                   : 
+OR                   : 60
 ORELSE               : 
-PERCENT              : 
+PERCENT              : 57
 PERCENTEQUAL         : 
-PIPE                 : 42 42
+PIPE                 : 
 PIPE2                : 
 PIPEEQUAL            : 
-PLUS                 : 52 58
+PLUS                 : 51
 PLUS2                : 
-PLUSEQUAL            : 32
-PLUSPERCENT          : 33
-PLUSPERCENTEQUAL     : 34
-PLUSPIPE             : 35
-PLUSPIPEEQUAL        : 36
-PUB                  : 5 6
+PLUSEQUAL            : 29
+PLUSPERCENT          : 30
+PLUSPERCENTEQUAL     : 31
+PLUSPIPE             : 32
+PLUSPIPEEQUAL        : 33
+PUB                  : 3 5 7 9
 QUESTIONMARK         : 
-RARROW               : 56 62
+RARROW               : 55
 RARROW2              : 
 RARROW2EQUAL         : 
 RARROWEQUAL          : 
-RBRACE               : 5 6 7 8 42 43
+RBRACE               : 3 4 5 6 7 8 9 10 39 40 42 66
 RBRACKET             : 
-RETURN               : 44
-RPAREN               : 5 6 7 8 28 29 30 42 43 50 51 68 69 70 71
-SEMICOLON            : 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 44
-SLASH                : 54 60
+RETURN               : 41
+RPAREN               : 3 4 5 6 7 8 9 10 39 40 42 49 50 64 65 66 67
+SEMICOLON            : 25 26 27 28 29 30 31 32 33 34 35 36 37 38 41 43
+SLASH                : 53
 SLASHEQUAL           : 
-STRING               : 49 50 51
+STRING               : 48
 STRUCT               : 
 SWITCH               : 
 TILDE                : 
-TRUE                 : 64
-U128                 : 21
+TRUE                 : 61
+U128                 : 
 U16                  : 15
 U32                  : 17
 U64                  : 19
 U8                   : 13
 UNDEFINED            : 
 UNION                : 
-VAR                  : 25 28
+VAR                  : 25
 VOID                 : 11
-WHILE                : 43
+WHILE                : 39
 error                : 
 
 Nonterminals, with rules where they appear
 
-acesso               : 46 67
-args                 : 69 71 72
-call                 : 66
-comando              : 9 10
-comandos             : 2 4 10 22 42 43
-corpo                : 5 6 7 8
-expr                 : 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 42 43 44 51 52 53 54 55 56 57 58 59 60 61 62 63 72 73
-funcao               : 1 3
-params               : 5 7 24
-programa             : 3 4 0
-tipo_retorno         : 5 6 7 8 23 24 25 27 28 30
+args                 : 64 66 66 67 68
+call                 : 63
+comando              : 23 24 40
+comandos             : 22 24 39 40 42
+corpo                : 7 8 9 10
+expr                 : 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 41 42 45 49 50 50 51 51 52 52 53 53 54 54 55 55 56 56 57 57 58 58 59 59 60 60 64 65 66 67 68 69
+funcao               : 1 2
+params               : 5 6 7 8 21
+programa             : 2 0
+tipo_retorno         : 3 4 5 6 7 8 9 10 20 21 25 27
+x                    : 
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . funcao
+    (2) programa -> . funcao programa
+    (3) funcao -> . PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (4) funcao -> . FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> . PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (6) funcao -> . FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> . PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (8) funcao -> . FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> . PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+    (10) funcao -> . FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    PUB             shift and go to state 3
+    FN              shift and go to state 4
+
+    programa                       shift and go to state 1
+    funcao                         shift and go to state 2
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> funcao .
+    (2) programa -> funcao . programa
+    (1) programa -> . funcao
+    (2) programa -> . funcao programa
+    (3) funcao -> . PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (4) funcao -> . FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> . PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (6) funcao -> . FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> . PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (8) funcao -> . FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> . PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+    (10) funcao -> . FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    $end            reduce using rule 1 (programa -> funcao .)
+    PUB             shift and go to state 3
+    FN              shift and go to state 4
+
+    funcao                         shift and go to state 2
+    programa                       shift and go to state 5
+
+state 3
+
+    (3) funcao -> PUB . FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> PUB . FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB . FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> PUB . FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    FN              shift and go to state 6
+
+
+state 4
+
+    (4) funcao -> FN . ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (6) funcao -> FN . ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (8) funcao -> FN . ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (10) funcao -> FN . ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    ID              shift and go to state 7
+
+
+state 5
+
+    (2) programa -> funcao programa .
+
+    $end            reduce using rule 2 (programa -> funcao programa .)
+
+
+state 6
+
+    (3) funcao -> PUB FN . ID LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> PUB FN . ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB FN . ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> PUB FN . ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    ID              shift and go to state 8
+
+
+state 7
+
+    (4) funcao -> FN ID . LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (6) funcao -> FN ID . LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (8) funcao -> FN ID . LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (10) funcao -> FN ID . LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    LPAREN          shift and go to state 9
+
+
+state 8
+
+    (3) funcao -> PUB FN ID . LPAREN RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> PUB FN ID . LPAREN params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB FN ID . LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> PUB FN ID . LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    LPAREN          shift and go to state 10
+
+
+state 9
+
+    (4) funcao -> FN ID LPAREN . RPAREN tipo_retorno LBRACE RBRACE
+    (6) funcao -> FN ID LPAREN . params RPAREN tipo_retorno LBRACE RBRACE
+    (8) funcao -> FN ID LPAREN . params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (10) funcao -> FN ID LPAREN . RPAREN tipo_retorno LBRACE corpo RBRACE
+    (20) params -> . ID COLON tipo_retorno
+    (21) params -> . ID COLON tipo_retorno COMMA params
+
+    RPAREN          shift and go to state 12
+    ID              shift and go to state 11
+
+    params                         shift and go to state 13
+
+state 10
+
+    (3) funcao -> PUB FN ID LPAREN . RPAREN tipo_retorno LBRACE RBRACE
+    (5) funcao -> PUB FN ID LPAREN . params RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB FN ID LPAREN . params RPAREN tipo_retorno LBRACE corpo RBRACE
+    (9) funcao -> PUB FN ID LPAREN . RPAREN tipo_retorno LBRACE corpo RBRACE
+    (20) params -> . ID COLON tipo_retorno
+    (21) params -> . ID COLON tipo_retorno COMMA params
+
+    RPAREN          shift and go to state 14
+    ID              shift and go to state 11
+
+    params                         shift and go to state 15
+
+state 11
+
+    (20) params -> ID . COLON tipo_retorno
+    (21) params -> ID . COLON tipo_retorno COMMA params
+
+    COLON           shift and go to state 16
+
+
+state 12
+
+    (4) funcao -> FN ID LPAREN RPAREN . tipo_retorno LBRACE RBRACE
+    (10) funcao -> FN ID LPAREN RPAREN . tipo_retorno LBRACE corpo RBRACE
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 17
+
+state 13
+
+    (6) funcao -> FN ID LPAREN params . RPAREN tipo_retorno LBRACE RBRACE
+    (8) funcao -> FN ID LPAREN params . RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    RPAREN          shift and go to state 27
+
+
+state 14
+
+    (3) funcao -> PUB FN ID LPAREN RPAREN . tipo_retorno LBRACE RBRACE
+    (9) funcao -> PUB FN ID LPAREN RPAREN . tipo_retorno LBRACE corpo RBRACE
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 28
+
+state 15
+
+    (5) funcao -> PUB FN ID LPAREN params . RPAREN tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB FN ID LPAREN params . RPAREN tipo_retorno LBRACE corpo RBRACE
+
+    RPAREN          shift and go to state 29
+
+
+state 16
+
+    (20) params -> ID COLON . tipo_retorno
+    (21) params -> ID COLON . tipo_retorno COMMA params
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 30
+
+state 17
+
+    (4) funcao -> FN ID LPAREN RPAREN tipo_retorno . LBRACE RBRACE
+    (10) funcao -> FN ID LPAREN RPAREN tipo_retorno . LBRACE corpo RBRACE
+
+    LBRACE          shift and go to state 31
+
+
+state 18
+
+    (11) tipo_retorno -> VOID .
+
+    LBRACE          reduce using rule 11 (tipo_retorno -> VOID .)
+    COMMA           reduce using rule 11 (tipo_retorno -> VOID .)
+    RPAREN          reduce using rule 11 (tipo_retorno -> VOID .)
+    EQUAL           reduce using rule 11 (tipo_retorno -> VOID .)
+
+
+state 19
+
+    (12) tipo_retorno -> I8 .
+
+    LBRACE          reduce using rule 12 (tipo_retorno -> I8 .)
+    COMMA           reduce using rule 12 (tipo_retorno -> I8 .)
+    RPAREN          reduce using rule 12 (tipo_retorno -> I8 .)
+    EQUAL           reduce using rule 12 (tipo_retorno -> I8 .)
+
+
+state 20
+
+    (13) tipo_retorno -> U8 .
+
+    LBRACE          reduce using rule 13 (tipo_retorno -> U8 .)
+    COMMA           reduce using rule 13 (tipo_retorno -> U8 .)
+    RPAREN          reduce using rule 13 (tipo_retorno -> U8 .)
+    EQUAL           reduce using rule 13 (tipo_retorno -> U8 .)
+
+
+state 21
+
+    (14) tipo_retorno -> I16 .
+
+    LBRACE          reduce using rule 14 (tipo_retorno -> I16 .)
+    COMMA           reduce using rule 14 (tipo_retorno -> I16 .)
+    RPAREN          reduce using rule 14 (tipo_retorno -> I16 .)
+    EQUAL           reduce using rule 14 (tipo_retorno -> I16 .)
+
+
+state 22
+
+    (15) tipo_retorno -> U16 .
+
+    LBRACE          reduce using rule 15 (tipo_retorno -> U16 .)
+    COMMA           reduce using rule 15 (tipo_retorno -> U16 .)
+    RPAREN          reduce using rule 15 (tipo_retorno -> U16 .)
+    EQUAL           reduce using rule 15 (tipo_retorno -> U16 .)
+
+
+state 23
+
+    (16) tipo_retorno -> I32 .
+
+    LBRACE          reduce using rule 16 (tipo_retorno -> I32 .)
+    COMMA           reduce using rule 16 (tipo_retorno -> I32 .)
+    RPAREN          reduce using rule 16 (tipo_retorno -> I32 .)
+    EQUAL           reduce using rule 16 (tipo_retorno -> I32 .)
+
+
+state 24
+
+    (17) tipo_retorno -> U32 .
+
+    LBRACE          reduce using rule 17 (tipo_retorno -> U32 .)
+    COMMA           reduce using rule 17 (tipo_retorno -> U32 .)
+    RPAREN          reduce using rule 17 (tipo_retorno -> U32 .)
+    EQUAL           reduce using rule 17 (tipo_retorno -> U32 .)
+
+
+state 25
+
+    (18) tipo_retorno -> I64 .
+
+    LBRACE          reduce using rule 18 (tipo_retorno -> I64 .)
+    COMMA           reduce using rule 18 (tipo_retorno -> I64 .)
+    RPAREN          reduce using rule 18 (tipo_retorno -> I64 .)
+    EQUAL           reduce using rule 18 (tipo_retorno -> I64 .)
+
+
+state 26
+
+    (19) tipo_retorno -> U64 .
+
+    LBRACE          reduce using rule 19 (tipo_retorno -> U64 .)
+    COMMA           reduce using rule 19 (tipo_retorno -> U64 .)
+    RPAREN          reduce using rule 19 (tipo_retorno -> U64 .)
+    EQUAL           reduce using rule 19 (tipo_retorno -> U64 .)
+
+
+state 27
+
+    (6) funcao -> FN ID LPAREN params RPAREN . tipo_retorno LBRACE RBRACE
+    (8) funcao -> FN ID LPAREN params RPAREN . tipo_retorno LBRACE corpo RBRACE
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 32
+
+state 28
+
+    (3) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno . LBRACE RBRACE
+    (9) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno . LBRACE corpo RBRACE
+
+    LBRACE          shift and go to state 33
+
+
+state 29
+
+    (5) funcao -> PUB FN ID LPAREN params RPAREN . tipo_retorno LBRACE RBRACE
+    (7) funcao -> PUB FN ID LPAREN params RPAREN . tipo_retorno LBRACE corpo RBRACE
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 34
+
+state 30
+
+    (20) params -> ID COLON tipo_retorno .
+    (21) params -> ID COLON tipo_retorno . COMMA params
+
+    RPAREN          reduce using rule 20 (params -> ID COLON tipo_retorno .)
+    COMMA           shift and go to state 35
+
+
+state 31
+
+    (4) funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE . RBRACE
+    (10) funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE . corpo RBRACE
+    (22) corpo -> . comandos
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    RBRACE          shift and go to state 37
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    corpo                          shift and go to state 38
+    comandos                       shift and go to state 39
+    comando                        shift and go to state 40
+
+state 32
+
+    (6) funcao -> FN ID LPAREN params RPAREN tipo_retorno . LBRACE RBRACE
+    (8) funcao -> FN ID LPAREN params RPAREN tipo_retorno . LBRACE corpo RBRACE
+
+    LBRACE          shift and go to state 48
+
+
+state 33
+
+    (3) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE . RBRACE
+    (9) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE . corpo RBRACE
+    (22) corpo -> . comandos
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    RBRACE          shift and go to state 49
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    corpo                          shift and go to state 50
+    comandos                       shift and go to state 39
+    comando                        shift and go to state 40
+
+state 34
+
+    (5) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno . LBRACE RBRACE
+    (7) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno . LBRACE corpo RBRACE
+
+    LBRACE          shift and go to state 51
+
+
+state 35
+
+    (21) params -> ID COLON tipo_retorno COMMA . params
+    (20) params -> . ID COLON tipo_retorno
+    (21) params -> . ID COLON tipo_retorno COMMA params
+
+    ID              shift and go to state 11
+
+    params                         shift and go to state 52
+
+state 36
+
+    (28) comando -> ID . EQUAL expr SEMICOLON
+    (29) comando -> ID . PLUSEQUAL expr SEMICOLON
+    (30) comando -> ID . PLUSPERCENT expr SEMICOLON
+    (31) comando -> ID . PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> ID . PLUSPIPE expr SEMICOLON
+    (33) comando -> ID . PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> ID . MINUSEQUAL expr SEMICOLON
+    (35) comando -> ID . MINUSPERCENT expr SEMICOLON
+    (36) comando -> ID . MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> ID . MINUSPIPE expr SEMICOLON
+    (38) comando -> ID . MINUSPIPEEQUAL expr SEMICOLON
+
+    EQUAL           shift and go to state 53
+    PLUSEQUAL       shift and go to state 54
+    PLUSPERCENT     shift and go to state 55
+    PLUSPERCENTEQUAL shift and go to state 56
+    PLUSPIPE        shift and go to state 57
+    PLUSPIPEEQUAL   shift and go to state 58
+    MINUSEQUAL      shift and go to state 59
+    MINUSPERCENT    shift and go to state 60
+    MINUSPERCENTEQUAL shift and go to state 61
+    MINUSPIPE       shift and go to state 62
+    MINUSPIPEEQUAL  shift and go to state 63
+
+
+state 37
+
+    (4) funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .
+
+    PUB             reduce using rule 4 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+    FN              reduce using rule 4 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+    $end            reduce using rule 4 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+
+
+state 38
+
+    (10) funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo . RBRACE
+
+    RBRACE          shift and go to state 64
+
+
+state 39
+
+    (22) corpo -> comandos .
+
+    RBRACE          reduce using rule 22 (corpo -> comandos .)
+
+
+state 40
+
+    (23) comandos -> comando .
+    (24) comandos -> comando . comandos
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    RBRACE          reduce using rule 23 (comandos -> comando .)
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    comando                        shift and go to state 40
+    comandos                       shift and go to state 65
+
+state 41
+
+    (25) comando -> VAR . ID COLON tipo_retorno EQUAL expr SEMICOLON
+
+    ID              shift and go to state 66
+
+
+state 42
+
+    (26) comando -> CONST . ID EQUAL expr SEMICOLON
+    (27) comando -> CONST . ID COLON tipo_retorno EQUAL expr SEMICOLON
+
+    ID              shift and go to state 67
+
+
+state 43
+
+    (39) comando -> WHILE . LPAREN expr RPAREN LBRACE comandos RBRACE
+
+    LPAREN          shift and go to state 68
+
+
+state 44
+
+    (40) comando -> FOR . LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+
+    LPAREN          shift and go to state 69
+
+
+state 45
+
+    (41) comando -> RETURN . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 70
+
+state 46
+
+    (42) comando -> IF . LPAREN expr RPAREN LBRACE comandos RBRACE
+
+    LPAREN          shift and go to state 72
+
+
+state 47
+
+    (43) comando -> BREAK . SEMICOLON
+
+    SEMICOLON       shift and go to state 73
+
+
+state 48
+
+    (6) funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE . RBRACE
+    (8) funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE . corpo RBRACE
+    (22) corpo -> . comandos
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    RBRACE          shift and go to state 74
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    corpo                          shift and go to state 75
+    comandos                       shift and go to state 39
+    comando                        shift and go to state 40
+
+state 49
+
+    (3) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .
+
+    PUB             reduce using rule 3 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+    FN              reduce using rule 3 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+    $end            reduce using rule 3 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE .)
+
+
+state 50
+
+    (9) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo . RBRACE
+
+    RBRACE          shift and go to state 76
+
+
+state 51
+
+    (5) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE . RBRACE
+    (7) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE . corpo RBRACE
+    (22) corpo -> . comandos
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    RBRACE          shift and go to state 77
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    corpo                          shift and go to state 78
+    comandos                       shift and go to state 39
+    comando                        shift and go to state 40
+
+state 52
+
+    (21) params -> ID COLON tipo_retorno COMMA params .
+
+    RPAREN          reduce using rule 21 (params -> ID COLON tipo_retorno COMMA params .)
+
+
+state 53
+
+    (28) comando -> ID EQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 79
+
+state 54
+
+    (29) comando -> ID PLUSEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 80
+
+state 55
+
+    (30) comando -> ID PLUSPERCENT . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 81
+
+state 56
+
+    (31) comando -> ID PLUSPERCENTEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 82
+
+state 57
+
+    (32) comando -> ID PLUSPIPE . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 83
+
+state 58
+
+    (33) comando -> ID PLUSPIPEEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 84
+
+state 59
+
+    (34) comando -> ID MINUSEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 85
+
+state 60
+
+    (35) comando -> ID MINUSPERCENT . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 86
+
+state 61
+
+    (36) comando -> ID MINUSPERCENTEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 87
+
+state 62
+
+    (37) comando -> ID MINUSPIPE . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 88
+
+state 63
+
+    (38) comando -> ID MINUSPIPEEQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 89
+
+state 64
+
+    (10) funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .
+
+    PUB             reduce using rule 10 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    FN              reduce using rule 10 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    $end            reduce using rule 10 (funcao -> FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+
+
+state 65
+
+    (24) comandos -> comando comandos .
+
+    RBRACE          reduce using rule 24 (comandos -> comando comandos .)
+
+
+state 66
+
+    (25) comando -> VAR ID . COLON tipo_retorno EQUAL expr SEMICOLON
+
+    COLON           shift and go to state 90
+
+
+state 67
+
+    (26) comando -> CONST ID . EQUAL expr SEMICOLON
+    (27) comando -> CONST ID . COLON tipo_retorno EQUAL expr SEMICOLON
+
+    EQUAL           shift and go to state 91
+    COLON           shift and go to state 92
+
+
+state 68
+
+    (39) comando -> WHILE LPAREN . expr RPAREN LBRACE comandos RBRACE
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 93
+
+state 69
+
+    (40) comando -> FOR LPAREN . comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    comando                        shift and go to state 94
+
+state 70
+
+    (41) comando -> RETURN expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 95
+
+
+state 71
+
+    (44) expr -> ID .
+
+    SEMICOLON       reduce using rule 44 (expr -> ID .)
+    RPAREN          reduce using rule 44 (expr -> ID .)
+
+
+state 72
+
+    (42) comando -> IF LPAREN . expr RPAREN LBRACE comandos RBRACE
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 96
+
+state 73
+
+    (43) comando -> BREAK SEMICOLON .
+
+    VAR             reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    CONST           reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    ID              reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    WHILE           reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    FOR             reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    RETURN          reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    IF              reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    BREAK           reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    RBRACE          reduce using rule 43 (comando -> BREAK SEMICOLON .)
+    INTEGER         reduce using rule 43 (comando -> BREAK SEMICOLON .)
+
+
+state 74
+
+    (6) funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .
+
+    PUB             reduce using rule 6 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+    FN              reduce using rule 6 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+    $end            reduce using rule 6 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+
+
+state 75
+
+    (8) funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo . RBRACE
+
+    RBRACE          shift and go to state 97
+
+
+state 76
+
+    (9) funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .
+
+    PUB             reduce using rule 9 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    FN              reduce using rule 9 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    $end            reduce using rule 9 (funcao -> PUB FN ID LPAREN RPAREN tipo_retorno LBRACE corpo RBRACE .)
+
+
+state 77
+
+    (5) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .
+
+    PUB             reduce using rule 5 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+    FN              reduce using rule 5 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+    $end            reduce using rule 5 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE RBRACE .)
+
+
+state 78
+
+    (7) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo . RBRACE
+
+    RBRACE          shift and go to state 98
+
+
+state 79
+
+    (28) comando -> ID EQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 99
+
+
+state 80
+
+    (29) comando -> ID PLUSEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 100
+
+
+state 81
+
+    (30) comando -> ID PLUSPERCENT expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 101
+
+
+state 82
+
+    (31) comando -> ID PLUSPERCENTEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 102
+
+
+state 83
+
+    (32) comando -> ID PLUSPIPE expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 103
+
+
+state 84
+
+    (33) comando -> ID PLUSPIPEEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 104
+
+
+state 85
+
+    (34) comando -> ID MINUSEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 105
+
+
+state 86
+
+    (35) comando -> ID MINUSPERCENT expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 106
+
+
+state 87
+
+    (36) comando -> ID MINUSPERCENTEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 107
+
+
+state 88
+
+    (37) comando -> ID MINUSPIPE expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 108
+
+
+state 89
+
+    (38) comando -> ID MINUSPIPEEQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 109
+
+
+state 90
+
+    (25) comando -> VAR ID COLON . tipo_retorno EQUAL expr SEMICOLON
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 110
+
+state 91
+
+    (26) comando -> CONST ID EQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 111
+
+state 92
+
+    (27) comando -> CONST ID COLON . tipo_retorno EQUAL expr SEMICOLON
+    (11) tipo_retorno -> . VOID
+    (12) tipo_retorno -> . I8
+    (13) tipo_retorno -> . U8
+    (14) tipo_retorno -> . I16
+    (15) tipo_retorno -> . U16
+    (16) tipo_retorno -> . I32
+    (17) tipo_retorno -> . U32
+    (18) tipo_retorno -> . I64
+    (19) tipo_retorno -> . U64
+
+    VOID            shift and go to state 18
+    I8              shift and go to state 19
+    U8              shift and go to state 20
+    I16             shift and go to state 21
+    U16             shift and go to state 22
+    I32             shift and go to state 23
+    U32             shift and go to state 24
+    I64             shift and go to state 25
+    U64             shift and go to state 26
+
+    tipo_retorno                   shift and go to state 112
+
+state 93
+
+    (39) comando -> WHILE LPAREN expr . RPAREN LBRACE comandos RBRACE
+
+    RPAREN          shift and go to state 113
+
+
+state 94
+
+    (40) comando -> FOR LPAREN comando . INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+
+    INTEGER         shift and go to state 114
+
+
+state 95
+
+    (41) comando -> RETURN expr SEMICOLON .
+
+    VAR             reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    CONST           reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    ID              reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    WHILE           reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    FOR             reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    RETURN          reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    IF              reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    BREAK           reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    RBRACE          reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+    INTEGER         reduce using rule 41 (comando -> RETURN expr SEMICOLON .)
+
+
+state 96
+
+    (42) comando -> IF LPAREN expr . RPAREN LBRACE comandos RBRACE
+
+    RPAREN          shift and go to state 115
+
+
+state 97
+
+    (8) funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .
+
+    PUB             reduce using rule 8 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    FN              reduce using rule 8 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    $end            reduce using rule 8 (funcao -> FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+
+
+state 98
+
+    (7) funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .
+
+    PUB             reduce using rule 7 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    FN              reduce using rule 7 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+    $end            reduce using rule 7 (funcao -> PUB FN ID LPAREN params RPAREN tipo_retorno LBRACE corpo RBRACE .)
+
+
+state 99
+
+    (28) comando -> ID EQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    CONST           reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    ID              reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    FOR             reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    IF              reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 28 (comando -> ID EQUAL expr SEMICOLON .)
+
+
+state 100
+
+    (29) comando -> ID PLUSEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    ID              reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    IF              reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 29 (comando -> ID PLUSEQUAL expr SEMICOLON .)
+
+
+state 101
+
+    (30) comando -> ID PLUSPERCENT expr SEMICOLON .
+
+    VAR             reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    CONST           reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    ID              reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    WHILE           reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    FOR             reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    RETURN          reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    IF              reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    BREAK           reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    RBRACE          reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+    INTEGER         reduce using rule 30 (comando -> ID PLUSPERCENT expr SEMICOLON .)
+
+
+state 102
+
+    (31) comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    ID              reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    IF              reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 31 (comando -> ID PLUSPERCENTEQUAL expr SEMICOLON .)
+
+
+state 103
+
+    (32) comando -> ID PLUSPIPE expr SEMICOLON .
+
+    VAR             reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    CONST           reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    ID              reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    WHILE           reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    FOR             reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    RETURN          reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    IF              reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    BREAK           reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    RBRACE          reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+    INTEGER         reduce using rule 32 (comando -> ID PLUSPIPE expr SEMICOLON .)
+
+
+state 104
+
+    (33) comando -> ID PLUSPIPEEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    ID              reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    IF              reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 33 (comando -> ID PLUSPIPEEQUAL expr SEMICOLON .)
+
+
+state 105
+
+    (34) comando -> ID MINUSEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    ID              reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    IF              reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 34 (comando -> ID MINUSEQUAL expr SEMICOLON .)
+
+
+state 106
+
+    (35) comando -> ID MINUSPERCENT expr SEMICOLON .
+
+    VAR             reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    CONST           reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    ID              reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    WHILE           reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    FOR             reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    RETURN          reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    IF              reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    BREAK           reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    RBRACE          reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+    INTEGER         reduce using rule 35 (comando -> ID MINUSPERCENT expr SEMICOLON .)
+
+
+state 107
+
+    (36) comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    ID              reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    IF              reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 36 (comando -> ID MINUSPERCENTEQUAL expr SEMICOLON .)
+
+
+state 108
+
+    (37) comando -> ID MINUSPIPE expr SEMICOLON .
+
+    VAR             reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    CONST           reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    ID              reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    WHILE           reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    FOR             reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    RETURN          reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    IF              reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    BREAK           reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    RBRACE          reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+    INTEGER         reduce using rule 37 (comando -> ID MINUSPIPE expr SEMICOLON .)
+
+
+state 109
+
+    (38) comando -> ID MINUSPIPEEQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    CONST           reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    ID              reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    FOR             reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    IF              reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 38 (comando -> ID MINUSPIPEEQUAL expr SEMICOLON .)
+
+
+state 110
+
+    (25) comando -> VAR ID COLON tipo_retorno . EQUAL expr SEMICOLON
+
+    EQUAL           shift and go to state 116
+
+
+state 111
+
+    (26) comando -> CONST ID EQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 117
+
+
+state 112
+
+    (27) comando -> CONST ID COLON tipo_retorno . EQUAL expr SEMICOLON
+
+    EQUAL           shift and go to state 118
+
+
+state 113
+
+    (39) comando -> WHILE LPAREN expr RPAREN . LBRACE comandos RBRACE
+
+    LBRACE          shift and go to state 119
+
+
+state 114
+
+    (40) comando -> FOR LPAREN comando INTEGER . DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+
+    DOT2            shift and go to state 120
+
+
+state 115
+
+    (42) comando -> IF LPAREN expr RPAREN . LBRACE comandos RBRACE
+
+    LBRACE          shift and go to state 121
+
+
+state 116
+
+    (25) comando -> VAR ID COLON tipo_retorno EQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 122
+
+state 117
+
+    (26) comando -> CONST ID EQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    CONST           reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    ID              reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    FOR             reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    IF              reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 26 (comando -> CONST ID EQUAL expr SEMICOLON .)
+
+
+state 118
+
+    (27) comando -> CONST ID COLON tipo_retorno EQUAL . expr SEMICOLON
+    (44) expr -> . ID
+
+    ID              shift and go to state 71
+
+    expr                           shift and go to state 123
+
+state 119
+
+    (39) comando -> WHILE LPAREN expr RPAREN LBRACE . comandos RBRACE
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    comandos                       shift and go to state 124
+    comando                        shift and go to state 40
+
+state 120
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 . INTEGER RPAREN LBRACE comandos RBRACE
+
+    INTEGER         shift and go to state 125
+
+
+state 121
+
+    (42) comando -> IF LPAREN expr RPAREN LBRACE . comandos RBRACE
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    comandos                       shift and go to state 126
+    comando                        shift and go to state 40
+
+state 122
+
+    (25) comando -> VAR ID COLON tipo_retorno EQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 127
+
+
+state 123
+
+    (27) comando -> CONST ID COLON tipo_retorno EQUAL expr . SEMICOLON
+
+    SEMICOLON       shift and go to state 128
+
+
+state 124
+
+    (39) comando -> WHILE LPAREN expr RPAREN LBRACE comandos . RBRACE
+
+    RBRACE          shift and go to state 129
+
+
+state 125
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 INTEGER . RPAREN LBRACE comandos RBRACE
+
+    RPAREN          shift and go to state 130
+
+
+state 126
+
+    (42) comando -> IF LPAREN expr RPAREN LBRACE comandos . RBRACE
+
+    RBRACE          shift and go to state 131
+
+
+state 127
+
+    (25) comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    CONST           reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    ID              reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    FOR             reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    IF              reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 25 (comando -> VAR ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+
+
+state 128
+
+    (27) comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .
+
+    VAR             reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    CONST           reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    ID              reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    WHILE           reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    FOR             reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    RETURN          reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    IF              reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    BREAK           reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    RBRACE          reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+    INTEGER         reduce using rule 27 (comando -> CONST ID COLON tipo_retorno EQUAL expr SEMICOLON .)
+
+
+state 129
+
+    (39) comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .
+
+    VAR             reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    CONST           reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    ID              reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    WHILE           reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    FOR             reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    RETURN          reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    IF              reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    BREAK           reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    RBRACE          reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    INTEGER         reduce using rule 39 (comando -> WHILE LPAREN expr RPAREN LBRACE comandos RBRACE .)
+
+
+state 130
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN . LBRACE comandos RBRACE
+
+    LBRACE          shift and go to state 132
+
+
+state 131
+
+    (42) comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .
+
+    VAR             reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    CONST           reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    ID              reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    WHILE           reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    FOR             reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    RETURN          reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    IF              reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    BREAK           reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    RBRACE          reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+    INTEGER         reduce using rule 42 (comando -> IF LPAREN expr RPAREN LBRACE comandos RBRACE .)
+
+
+state 132
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE . comandos RBRACE
+    (23) comandos -> . comando
+    (24) comandos -> . comando comandos
+    (25) comando -> . VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (26) comando -> . CONST ID EQUAL expr SEMICOLON
+    (27) comando -> . CONST ID COLON tipo_retorno EQUAL expr SEMICOLON
+    (28) comando -> . ID EQUAL expr SEMICOLON
+    (29) comando -> . ID PLUSEQUAL expr SEMICOLON
+    (30) comando -> . ID PLUSPERCENT expr SEMICOLON
+    (31) comando -> . ID PLUSPERCENTEQUAL expr SEMICOLON
+    (32) comando -> . ID PLUSPIPE expr SEMICOLON
+    (33) comando -> . ID PLUSPIPEEQUAL expr SEMICOLON
+    (34) comando -> . ID MINUSEQUAL expr SEMICOLON
+    (35) comando -> . ID MINUSPERCENT expr SEMICOLON
+    (36) comando -> . ID MINUSPERCENTEQUAL expr SEMICOLON
+    (37) comando -> . ID MINUSPIPE expr SEMICOLON
+    (38) comando -> . ID MINUSPIPEEQUAL expr SEMICOLON
+    (39) comando -> . WHILE LPAREN expr RPAREN LBRACE comandos RBRACE
+    (40) comando -> . FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE
+    (41) comando -> . RETURN expr SEMICOLON
+    (42) comando -> . IF LPAREN expr RPAREN LBRACE comandos RBRACE
+    (43) comando -> . BREAK SEMICOLON
+
+    VAR             shift and go to state 41
+    CONST           shift and go to state 42
+    ID              shift and go to state 36
+    WHILE           shift and go to state 43
+    FOR             shift and go to state 44
+    RETURN          shift and go to state 45
+    IF              shift and go to state 46
+    BREAK           shift and go to state 47
+
+    comando                        shift and go to state 40
+    comandos                       shift and go to state 133
+
+state 133
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos . RBRACE
+
+    RBRACE          shift and go to state 134
+
+
+state 134
+
+    (40) comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .
+
+    VAR             reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    CONST           reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    ID              reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    WHILE           reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    FOR             reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    RETURN          reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    IF              reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    BREAK           reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    RBRACE          reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
+    INTEGER         reduce using rule 40 (comando -> FOR LPAREN comando INTEGER DOT2 INTEGER RPAREN LBRACE comandos RBRACE .)
 
