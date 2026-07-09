@@ -10,715 +10,971 @@ class ProgramaAbstract(ABC):
     def accept(self, visitor):
        pass
 
-
 class Programa_Funcao(ProgramaAbstract):
-    def __init__(self, funcao):
+    def __init__(self,funcao):
         self.funcao = funcao
-
+    
     def accept(self,visitor):
-       return visitor.visitPrograma_Funcao(self)
+        return visitor.visitPrograma_Funcao(self)
 
-class Programa_Comandos(ProgramaAbstract):
-    def __init__(self,comandos):
-        self.comandos = comandos
-
+        
+class Programa_Decl(ProgramaAbstract):
+    def __init__(self,decl):
+        self.decl = decl
+    
     def accept(self,visitor):
-        return visitor.visitPrograma_Comandos(self)
+        return visitor.visitPrograma_Decl(self)
+    
     
 class Programa_Funcao_Programa(ProgramaAbstract):
+    
     def __init__(self,funcao,programa):
         self.funcao = funcao
         self.programa = programa
-
+    
     def accept(self,visitor):
         return visitor.visitPrograma_Funcao_Programa(self)
 
-class Programa_Comandos_Programa(ProgramaAbstract):
-    def __init__(self,comandos,programa):
-        self.comandos = comandos
-        self.programa = programa
 
-    def accept(self,visitor):
-        return visitor.visitPrograma_Comandos_Programa(self)
+class Programa_Decl_Programa(ProgramaAbstract):
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###################### DEFINIÇÃO DA CLASSE ABSTRATA FUNCAO E SUAS CLASSES CONCRETAS  #########################
-
+    def __init__(self,decl,programa):
+        self.decl = decl
+        self.programa = programa
+    
+    def accept(self,visitor):
+        return visitor.visitPrograma_Decl_Programa(self)
+    
+####################################################################################################
+    
+    
+    
+    
+###################### DEFINIÇÃO DA CLASSE ABSTRATA FUNCAO E SUAS CLASSES CONCRETAS #########################    
+    
+    
+    
+    
 class FuncaoAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
-   
-class Funcao_Pub_Fn_Params_Corpo(FuncaoAbstract):
-    def __init__(self,params, tipo_retorno, corpo):
-        self.params = params
-        self.tipo_retorno = tipo_retorno
-        self.corpo = corpo
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Pub_Fn_Params_Corpo(self)
-    
-    
-class Funcao_Pub_Fn_Params_Sem_Corpo(FuncaoAbstract):
-    def __init__(self,params, tipo_retorno):
-        self.params = params
-        self.tipo_retorno = tipo_retorno
-       
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Pub_Fn_Params_Sem_Corpo(self)
-
-class Funcao_Pub_Fn_No_Params_Corpo(FuncaoAbstract):
-    def __init__(self, tipo_retorno, corpo):
-        self.tipo_retorno = tipo_retorno
-        self.corpo = corpo
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Pub_Fn_No_Params_Corpo(self)
-    
-    
-class Funcao_Pub_Fn_No_Params_Sem_Corpo(FuncaoAbstract):
-    def __init__(self, tipo_retorno):
-        self.tipo_retorno = tipo_retorno
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Pub_Fn_No_Params_Sem_Corpo(self)
-    
-    
-class Funcao_Fn_Params_Corpo(FuncaoAbstract):
-    def __init__(self,params, tipo_retorno, corpo):
-        self.params = params
-        self.tipo_retorno = tipo_retorno
-        self.corpo = corpo
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Fn_Params_Corpo(self)
-    
-    
-    
-    
-    
-class Funcao_Fn_Params_Sem_Corpo(FuncaoAbstract):
-    def __init__(self,params, tipo_retorno):
-        self.params = params
-        self.tipo_retorno = tipo_retorno
-        
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Fn_Params_Sem_Corpo(self)
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Fn_Params_Corpo(self)
-    
-class Funcao_Fn_No_Params_Corpo(FuncaoAbstract):
-    def __init__(self, tipo_retorno, corpo):
-        self.tipo_retorno = tipo_retorno
-        self.corpo = corpo
-
-    def accept(self,visitor):
-        return visitor.visitFuncao_Fn_No_Params_Corpo(self)
+      pass
   
-class Funcao_Fn_No_Params_Sem_Corpo(FuncaoAbstract):
+  
+class Funcao_Pub_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
+    def __init__(self, pub, params, tipo_retorno, decl_interna):
+        self.pub = pub
+        self.params = params
+        self.tipo_retorno = tipo_retorno
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Pub_Fn_Params_Tipo_Retorno_Decl_Interna(self)
+
+
+class Funcao_Pub_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
+    def __init__(self, pub, tipo_retorno, decl_interna):
+        self.pub = pub
+        self.tipo_retorno = tipo_retorno
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Pub_Fn_Tipo_Retorno_Decl_Interna(self)
+
+
+class Funcao_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
+    def __init__(self, params, tipo_retorno, decl_interna):
+        self.params = params
+        self.tipo_retorno = tipo_retorno
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Fn_Params_Tipo_Retorno_Decl_Interna(self)
+
+
+class Funcao_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
+    def __init__(self, tipo_retorno, decl_interna):
+        self.tipo_retorno = tipo_retorno
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Fn_Tipo_Retorno_Decl_Interna(self)
+
+
+class Funcao_Pub_Fn_Params_Tipo_Retorno(FuncaoAbstract):
+    def __init__(self, pub, params, tipo_retorno):
+        self.pub = pub
+        self.params = params
+        self.tipo_retorno = tipo_retorno
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Pub_Fn_Params_Tipo_Retorno(self)
+
+
+class Funcao_Pub_Fn_Tipo_Retorno(FuncaoAbstract):
+    def __init__(self, pub, tipo_retorno):
+        self.pub = pub
+        self.tipo_retorno = tipo_retorno
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Pub_Fn_Tipo_Retorno(self)
+
+
+class Funcao_Fn_Params_Tipo_Retorno(FuncaoAbstract):
+    def __init__(self, params, tipo_retorno):
+        self.params = params
+        self.tipo_retorno = tipo_retorno
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Fn_Params_Tipo_Retorno(self)
+
+
+class Funcao_Fn_Tipo_Retorno(FuncaoAbstract):
     def __init__(self, tipo_retorno):
         self.tipo_retorno = tipo_retorno
 
-    def accept(self,visitor):
-        return visitor.visitFuncao_Fn_No_Params_Sem_Corpo(self)
-
+    def accept(self, visitor):
+        return visitor.visitFuncao_Fn_Tipo_Retorno(self)
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-###################### DEFINIÇÃO DA CLASSE ABSTRATA TIPO_RETORNO E SUAS CLASSES CONCRETAS  #########################
+####################################################################################################
 
 
 
+ ###################### DEFINIÇÃO DA CLASSE ABSTRATA TIPO_RETORNO E SUAS CLASSES CONCRETAS #########################
+    
+    
 class Tipo_RetornoAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
-
-class Tipo_Retorno(Tipo_RetornoAbstract):
-    def __init__(self,tipo):
-        self.tipo = tipo
         pass
 
-    def accept(self,visitor):
+
+class Tipo_Retorno(Tipo_RetornoAbstract):
+    def __init__(self, tipo):
+        self.tipo = tipo
+
+    def accept(self, visitor):
         return visitor.visitTipo_Retorno(self)
     
+ ####################################################################################################
+ 
+ 
+ 
+ ###################### DEFINIÇÃO DA CLASSE ABSTRATA PARAMS E SUAS CLASSES CONCRETAS #########################   
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-###################### DEFINIÇÃO DA CLASSE ABSTRATA PARAMS E SUAS CLASSES CONCRETAS  #########################
-
-
-
-
 class ParamsAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
-   
-class Params_Tipo_Retorno(ParamsAbstract):
+        pass
+
+
+class Params_Id_Tipo_Retorno(ParamsAbstract):
     def __init__(self, tipo_retorno):
         self.tipo_retorno = tipo_retorno
 
-    def accept(self,visitor):
-        return visitor.visitParams_Tipo_Retorno(self)
+    def accept(self, visitor):
+        return visitor.visitParams_IdTipo_Retorno(self)
     
     
-class Params_Tipo_Retorno_Params(ParamsAbstract):
-    def __init__(self,tipo_retorno, params):
+class Params_Id_Tipo_Retorno_Params(ParamsAbstract):
+    def __init__(self, tipo_retorno,params):
         self.tipo_retorno = tipo_retorno
         self.params = params
-
-    def accept(self,visitor):
-        return visitor.visitParams_Tipo_Retorno_Params(self)
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-###################### DEFINIÇÃO DA CLASSE ABSTRATA CORPO E SUAS CLASSES CONCRETAS  ######################## 
     
-class CorpoAbstract(ABC):
+    def accept(self, visitor):
+        return visitor.visitParams_IdTipo_Retorno_Params(self)
+    
+    
+    
+    
+    ####################################################################################################
+    
+     ###################### DEFINIÇÃO DA CLASSE ABSTRATA Call E SUAS CLASSES CONCRETAS ######################### 
+     
+     
+     
+     
+class CallAbstract(ABC):
+    @abstractmethod
+    def accept(self,visitor):
+        pass
+    
+class Call_Args(CallAbstract):
+    
+    def __init__(self,args):
+        self.args = args
+    
+    
+    def accept(self, visitor):
+        return visitor.visitCall_Args(self)
+
+class Call_No_Args(CallAbstract):
+    
+    def __init__(self):
+        pass
+    
+    
+    def accept(self, visitor):
+        return visitor.visitCall_No_Args(self)
+        
+        
+        
+   
+ ####################################################################################################        
+        
+        
+ ###################### DEFINIÇÃO DA CLASSE ABSTRATA ARGS E SUAS CLASSES CONCRETAS ######################### 
+ 
+ 
+class ArgsAbstract(ABC):
+    @abstractmethod
+    def accept(self,visitor):
+        pass
+    
+class Args_Id(ArgsAbstract):
+    
+    def __init__(self):
+        pass
+    
+    
+    def accept(self, visitor):
+        return visitor.visitArgs_Id(self)
+ 
+ 
+class Args_Id_Args(ArgsAbstract):
+    
+    def __init__(self,args):
+        self.args = args
+        
+    
+    
+    def accept(self, visitor):
+        return visitor.visitArgs_Id_Args(self)
+    
+class Args_String_Args(ArgsAbstract):
+    
+    def __init__(self,args):
+       self.args = args
+        
+    
+    
+    def accept(self, visitor):
+        return visitor.visitArgs_String_Args(self)
+
+class Args_String(ArgsAbstract):
+    
+    def __init__(self):
+      pass
+        
+    
+    
+    def accept(self, visitor):
+        return visitor.visitArgs_String(self)
+    
+####################################################################################################  
+
+
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA DECL E SUAS CLASSES CONCRETAS #########################
+
+
+
+
+class DeclAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
-   
-class Corpo_Comandos(CorpoAbstract):
-    def __init__(self,comandos):
-        self.comandos = comandos
+        pass
 
-    def accept(self,visitor):
-        return visitor.visitCorpo_Comandos(self)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-###################### DEFINIÇÃO DA CLASSE ABSTRATA COMANDOS E SUAS CLASSES CONCRETAS  ######################## 
-    
-    
-class ComandosAbstract(ABC):
-    @abstractmethod
-    def accept(self, visitor):
-       pass
+class Decl_Var_Tipo_Retorno_Expr(DeclAbstract):
 
-class Comandos_Comando(ComandosAbstract):
-    def __init__(self,comando):
-        self.comando = comando
-
-    def accept(self,visitor):
-        return visitor.visitComandos_Comando(self) 
-    
-class Comandos_Comando_Comandos(ComandosAbstract):
-    def __init__(self,comando, comandos):
-        self.comando = comando
-        self.comandos = comandos
-
-    def accept(self,visitor):
-        return visitor.visitComandos_Comando_Comandos(self)  
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-###################### DEFINIÇÃO DA CLASSE ABSTRATA COMANDO E SUAS CLASSES CONCRETAS  ######################## 
-
-
-class ComandoAbstract(ABC):
-    @abstractmethod
-    def accept(self, visitor):
-       pass
-   
-class Comando_Var(ComandoAbstract):
-    def __init__(self,tipo_retorno,expr):
+    def __init__(self, tipo_retorno, expr):
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitComando_Var(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Var_Tipo_Retorno_Expr(self)
     
     
-class Comando_Const_Expr(ComandoAbstract):
-    def __init__(self,expr):
+class Decl_Const_Expr(DeclAbstract):
+
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitComando_Const_Expr(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Const_Expr(self)
 
-class Comando_Const_Tipo_Retorno_Expr(ComandoAbstract):
-    def __init__(self,tipo_retorno,expr):
+class Decl_Const_Tipo_Retorno_Expr(DeclAbstract):
+
+    def __init__(self, tipo_retorno, expr):
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitComando_Const_Tipo_Retorno_Expr(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Const_Tipo_Retorno_Expr(self)
+
+class Decl_Equal_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Equal_Expr(self)
     
-class Comando_Id_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
+class Decl_Expr(DeclAbstract):
+
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Equal_Expr(self)
-
-
-class Comando_Id_Plus_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Plus_Equal_Expr(self)
-    
-class Comando_Id_Plus_Percent_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Plus_Percent_Expr(self)
-
-class Comando_Id_Plus_Percent_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Plus_Percent_Equal_Expr(self)
-    
-class Comando_Id_Plus_Pipe_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Plus_Pipe_Expr(self)
-
-class Comando_Id_Plus_Pipe_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Plus_Pipe_Equal_Expr(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Expr(self)
     
     
-class Comando_Id_Minus_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
+class Decl_Id_PlusEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Minus_Equal_Expr(self)
-
-class Comando_Id_Minus_Percent_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Minus_Percent_Expr(self)
-
-class Comando_Id_Minus_Percent_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Minus_Percent_Equal_Expr(self)
-
-class Comando_Id_Minus_Pipe_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Minus_Pipe_Expr(self)
-
-class Comando_Id_Minus_Pipe_Equal_Expr(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Id_Minus_Pipe_Equal_Expr(self)
-
-class Comando_While(ComandoAbstract):
-    def __init__(self,expr,comandos):
-        self.expr = expr
-        self.comandos = comandos
-
-    def accept(self,visitor):
-        return visitor.visitComando_While(self)
-
-class Comando_For(ComandoAbstract):
-    def __init__(self,expr,comandos):
-        self.expr = expr
-        self.comandos = comandos
-
-    def accept(self,visitor):
-        return visitor.visitComando_For(self)
-
-class Comando_Return(ComandoAbstract):
-    def __init__(self,expr):
-        self.expr = expr
-
-    def accept(self,visitor):
-        return visitor.visitComando_Return(self)
-
-class Comando_If(ComandoAbstract):
-    def __init__(self,expr,comandos):
-        self.expr = expr
-        self.comandos = comandos
-
-    def accept(self,visitor):
-        return visitor.visitComando_If(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_PlusEqual_Expr(self)
     
-class Comando_Break(ComandoAbstract):
-    def __init__(self,break_id):
-        self.break_id = break_id
+    
+class Decl_Id_PlusPercent_Expr(DeclAbstract):
 
-    def accept(self,visitor):
-        return visitor.visitComando_Break(self)
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_PlusPercent_Expr(self)
+    
+class Decl_Id_PlusPercentEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_PlusPercentEqual_Expr(self)
+
+class Decl_Id_PlusPipe_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_PlusPipe_Expr(self)
+    
+    
+class Decl_Id_PlusPipeEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_PlusPipeEqual_Expr(self)
+
+
+class Decl_Id_MinusEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_MinusEqual_Expr(self)
+
+
+class Decl_Id_MinusPercent_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_MinusPercent_Expr(self)
+
+
+class Decl_Id_MinusPercentEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_MinusPercentEqual_Expr(self)
+    
+class Decl_Id_MinusPipe_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_MinusPipe_Expr(self)
+
+
+class Decl_Id_MinusPipeEqual_Expr(DeclAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Id_MinusPipeEqual_Expr(self)
+####################################################################################################  
+
+
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA EXPR E SUAS CLASSES CONCRETAS #########################  
     
     
     
-    
-    
-    
-###################### DEFINIÇÃO DA CLASSE ABSTRATA EXPR E SUAS CLASSES CONCRETAS  ########################
-
-
 class ExprAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
-   
-class Expr_Id(ExprAbstract):
-    def __init__(self,id):
-        self.id = id
+        pass   
+
+
+
+class Expr_BuiltinIdentifier_String(ExprAbstract):
+
+    def __init__(self):
+        pass
+
+    def accept(self, visitor):
+        return visitor.visitExpr_BuiltinIdentifier_Expr(self)
     
+    
+class Expr_BuiltinIdentifier_Expr(ExprAbstract):
 
-    def accept(self,visitor):
-        return visitor.visitExpr_Id(self)
-
-class Expr_Id_Expr(ExprAbstract):
-    def __init__(self,id,expr):
-        self.id = id
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
+    def accept(self, visitor):
+        return visitor.visitExpr_BuiltinIdentifier_Expr(self)
+
+class Expr_Id_Plus_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Expr(self)
+
+class Expr_Id(ExprAbstract):
+
+    def __init__(self):
+        pass
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id(self)
+
+
+class Expr_Id_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Expr(self)
+
+class Expr_Call(ExprAbstract):
+
+    def __init__(self, call):
+        self.call = call
+
+    def accept(self, visitor):
         return visitor.visitExpr_Id_Expr(self)
 
 class Expr_Integer(ExprAbstract):
-    def __init__(self,integer):
-        self.integer = integer
 
-    def accept(self,visitor):
+    def __init__(self):
+        pass
+
+    def accept(self, visitor):
         return visitor.visitExpr_Integer(self)
     
 
-class Expr_Char(ExprAbstract):
-    def __init__(self,char):
-        self.char = char
+class Expr_Id_Minus_Expr(ExprAbstract):
 
-    def accept(self,visitor):
-        return visitor.visitExpr_Char(self)
-    
-class Expr_String(ExprAbstract):
-    def __init__(self,string):
-        self.string = string
-
-    def accept(self,visitor):
-        return visitor.visitExpr_String(self)
-    
-class Expr_Builtin_Identifier(ExprAbstract):
-    def __init__(self,expr):
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitExpr_Builtin_Identifier(self)
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Minus_Expr(self)
 
-class Expr_Builtin_Identifier_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
 
-    def accept(self,visitor):
-        return visitor.visitExpr_Builtin_Identifier_Expr(self)
+class Expr_Id_Slash_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Slash_Expr(self)
+
+
+class Expr_Id_Asterisk_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Asterisk_Expr(self)
+
+
+class Expr_Id_Rarrow_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Greater_Expr(self)
+
+
+class Expr_Id_Larrow_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Less_Expr(self)
+
+
+class Expr_Id_Percent_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Percent_Expr(self)
+
+class Expr_Id_EqualEqual_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_EqualEqual_Expr(self)
+
+
+class Expr_Id_And_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_And_Expr(self)
+
+
+class Expr_Id_Or_Expr(ExprAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitExpr_Id_Or_Expr(self)
     
-class Expr_Plus_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Plus_Expr(self)
-class Expr_Minus_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Minus_Expr(self)
-    
-class Expr_Div_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Div_Expr(self)
-    
-class Expr_Mult_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Mult_Expr(self)
-
-class Expr_Rarrow_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Rarrow_Expr(self)
-
-class Expr_Larrow_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Larrow_Expr(self)
-
-class Expr_Mod_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Mod_Expr(self)
-
-class Expr_Equal_Equal_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Equal_Equal_Expr(self)
-
-class Expr_And_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_And_Expr(self)
-
-class Expr_Or_Expr(ExprAbstract):
-    def __init__(self,expr1,expr2):
-        self.expr1 = expr1
-        self.expr2 = expr2
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Or_Expr(self)
-
 class Expr_True(ExprAbstract):
-    def __init__(self,true):
-        self.true = true
-
-    def accept(self,visitor):
+    def __init__(self):
+     pass      
+    
+    def accept(self, visitor):
         return visitor.visitExpr_True(self)
 
 class Expr_False(ExprAbstract):
-    def __init__(self,false):
-        self.false = false
-
-    def accept(self,visitor):
+    def __init__(self):
+       pass 
+    
+    def accept(self, visitor):
         return visitor.visitExpr_False(self)
-
-class Expr_Call(ExprAbstract):
-    def __init__(self,call):
-        self.call = call
-
-    def accept(self,visitor):
-        return visitor.visitExpr_Call(self)
+    
+####################################################################################################  
 
 
-###################### DEFINIÇÃO DA CLASSE ABSTRATA CALL E SUAS CLASSES CONCRETAS  ########################
+
+###################### DEFINIÇÃO DA CLASSE ABSTRATA DECL_INTERNA E SUAS CLASSES CONCRETAS #########################  
+
+from abc import ABC, abstractmethod
 
 
-class CallAbstract(ABC):
+class Decl_InternaAbstract(ABC):
     @abstractmethod
     def accept(self, visitor):
-       pass
+        pass
 
-class Call_Expr_Args(CallAbstract):
-    def __init__(self,expr,args):
+
+class Decl_Interna_Break(Decl_InternaAbstract):
+
+    def __init__(self):
+        pass
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Break(self)
+
+
+class Decl_Interna_Return_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
         self.expr = expr
-        self.args = args
 
-    def accept(self,visitor):
-        return visitor.visitCall_Expr_Args(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Return_Expr(self)
 
-class Call_Expr_No_Args(CallAbstract):
-    def __init__(self,expr):
+class Decl_Interna_While_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_While_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_For_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, decl_interna):
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_For_Decl_Interna(self)
+    
+class Decl_Interna_Expr(DeclAbstract):
+
+    def __init__(self, expr):
         self.expr = expr
 
-    def accept(self,visitor):
-        return visitor.visitCall_Expr_No_Args(self)
+    def accept(self, visitor):
+        return visitor.visitDecl__Interna_Expr(self)
 
-class Call_Expr_Args1_Args2(CallAbstract):
-    def __init__(self,expr,args1,args2):
+class Decl_Interna_If_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
         self.expr = expr
-        self.args1 = args1
-        self.args2 = args2
+        self.decl_interna = decl_interna
 
-    def accept(self,visitor):
-        return visitor.visitCall_Expr_Args1_Args2(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_If_Expr_Decl_Interna(self)
 
-class Call_Expr_Args1_No_Args2(CallAbstract):
-    def __init__(self,expr,args1):
+class Decl_Interna_Var_Tipo_Retorno_Expr(Decl_InternaAbstract):
+
+    def __init__(self, tipo_retorno, expr):
+        self.tipo_retorno = tipo_retorno
         self.expr = expr
-        self.args1 = args1
 
-    def accept(self,visitor):
-        return visitor.visitCall_Expr_Args1_No_Args2(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Var_Tipo_Retorno_Expr(self)
+
+
+class Decl_Interna_Const_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Const_Expr(self)
+
+
+class Decl_Interna_Const_Tipo_Retorno_Expr(Decl_InternaAbstract):
+
+    def __init__(self, tipo_retorno, expr):
+        self.tipo_retorno = tipo_retorno
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Const_Tipo_Retorno_Expr(self)
+    
+class Decl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, tipo_retorno, expr, decl_interna):
+        self.tipo_retorno = tipo_retorno
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_Const_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Const_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_Const_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, tipo_retorno, expr, decl_interna):
+        self.tipo_retorno = tipo_retorno
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Const_Tipo_Retorno_Expr_Decl_Interna(self)
+    
+class Decl_Interna_Equal_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Equal_Expr(self)
+
+
+class Decl_Interna_PlusEqual_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusEqual_Expr(self)
+
+
+class Decl_Interna_PlusPercent_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPercent_Expr(self)
+
+
+class Decl_Interna_PlusPercentEqual_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPercentEqual_Expr(self)
+
+
+class Decl_Interna_PlusPipe_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPipe_Expr(self)
+    
+
+
+class Decl_Interna_Equal_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Equal_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_PlusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusEqual_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_PlusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPercent_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_PlusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPercentEqual_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_PlusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPipe_Expr_Decl_Interna(self)
     
     
-###################### DEFINIÇÃO DA CLASSE ABSTRATA ARGS E SUAS CLASSES CONCRETAS  ########################
+class Decl_Interna_PlusPipeEqual_Expr(Decl_InternaAbstract):
 
-class ArgsAbstract(ABC):
-   @abstractmethod
-   def accept(self, visitor):
-    pass
+    def __init__(self, expr):
+        self.expr = expr
 
-class Args_Expr_Args(ArgsAbstract):
-    def __init__(self,expr,args):
-     self.expr = expr
-     self.args = args
-     
-    def accept(self,visitor):
-        return visitor.visitArgs_Expr_Args(self)
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPipeEqual_Expr(self)
 
-class Args_Expr(ArgsAbstract):
-    def __init__(self,expr,):
-     self.expr = expr
+
+class Decl_Interna_MinusEqual_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusEqual_Expr(self)
+
+
+class Decl_Interna_MinusPercent_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPercent_Expr(self)
+
+
+class Decl_Interna_MinusPercentEqual_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPercentEqual_Expr(self)
+
+
+class Decl_Interna_MinusPipe_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPipe_Expr(self)
+
+
+class Decl_Interna_MinusPipeEqual_Expr(Decl_InternaAbstract):
+
+    def __init__(self, expr):
+        self.expr = expr
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPipeEqual_Expr(self)
     
-     
-    def accept(self,visitor):
-        return visitor.visitArgs_Expr(self)
-
-        
     
+class Decl_Interna_PlusPipeEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_PlusPipeEqual_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_MinusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusEqual_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_MinusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPercent_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_MinusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPercentEqual_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_MinusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPipe_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_MinusPipeEqual_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_MinusPipeEqual_Expr_Decl_Interna(self)
+    
+class Decl_Interna_Expr_Decl_Interna(DeclAbstract):
+
+    def __init__(self, expr,decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl__Interna_Expr_Decl_Interna(self) 
+
+
+class Decl_Interna_Break_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, decl_interna):
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Break_Decl_Interna(self)
+
+
+class Decl_Interna_Return_Expr_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna):
+        self.expr = expr
+        self.decl_interna = decl_interna
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_Return_Expr_Decl_Interna(self)
+
+
+class Decl_Interna_While_Expr_Decl_Interna_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna1, decl_interna2):
+        self.expr = expr
+        self.decl_interna1 = decl_interna1
+        self.decl_interna2 = decl_interna2
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_While_Expr_Decl_Interna_Decl_Interna(self)
+
+
+class Decl_Interna_For_Decl_Interna_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, decl_interna1, decl_interna2):
+        self.decl_interna1 = decl_interna1
+        self.decl_interna2 = decl_interna2
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_For_Decl_Interna_Decl_Interna(self)
+
+
+class Decl_Interna_If_Expr_Decl_Interna_Decl_Interna(Decl_InternaAbstract):
+
+    def __init__(self, expr, decl_interna1, decl_interna2):
+        self.expr = expr
+        self.decl_interna1 = decl_interna1
+        self.decl_interna2 = decl_interna2
+
+    def accept(self, visitor):
+        return visitor.visitDecl_Interna_If_Expr_Decl_Interna_Decl_Interna(self)

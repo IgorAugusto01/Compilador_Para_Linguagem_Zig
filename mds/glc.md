@@ -11,6 +11,13 @@ funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"decl_interna"}" |
           "fn" ID "("params")" tipo_retorno "{"decl_interna"}|
           "fn" ID "()" tipo_retorno "{"decl_interna"}"
 
+
+          "pub" "fn" ID "("params")" tipo_retorno "{""}" |
+        "pub" "fn" ID "()" tipo_retorno "{""}" |
+
+          "fn" ID "("params")" tipo_retorno "{""}|
+          "fn" ID "()" tipo_retorno "{""}"
+
 tipo_retorno -> "void" |
                   "i8" |
                   "u8" |
@@ -27,6 +34,7 @@ tipo_retorno -> "void" |
 decl -> "var" ID ":" tipo_retorno "=" expr ";" |
               "const" ID = expr ";"|
               "const" ID ":" tipo_retorno "=" expr ";" |
+              expr ";" |
               ID "=" expr ";" | 
               ID "+=" expr ";"|
               ID "+%" expr ";"|
@@ -53,44 +61,59 @@ decl_interna -> "var" ID ":" tipo_retorno "=" expr ";" |
               ID "-%=" expr ";"|
               ID "-|" expr ";"|
               ID "-|=" expr ";"|
-              BREAK ";"
-              RETURN expr ";"
-              WHILE "(expr")" "{"comandos"}" |
-              FOR "("expr ".." expr ")" "|" expr "|" {"comandos"}"|
-              IF "("expr ")"{"comandos"}
+              expr ";" |
+             "var" ID ":" tipo_retorno "=" expr ";"  decl_interna|
+              "const" ID = expr ";" decl_interna|
+              "const" ID ":" tipo_retorno"=" expr ";" ecl_interna  |
+              ID "=" expr ";" | decl_interna 
+              ID "+=" expr ";" decl_interna|
+              ID "+%" expr ";" decl_interna|
+              ID "+%=" expr ";" decl_interna|
+              ID "+|" expr ";" decl_interna|
+              ID "+|=" expr ";" decl_interna|
+              ID "-=" expr ";" decl_interna|
+              ID "-%" expr ";" decl_interna|
+              ID "-%=" expr ";" decl_interna|
+              ID "-|" expr ";" decl_interna|
+              ID "-|=" expr ";" decl_interna|
+              expr ";"  decl_interna|
+              BREAK ";" decl_interna
+              RETURN expr ";" decl_interna
+              WHILE "(expr")" "{"decl_interna"}" decl_interna|
+              FOR "("INTEGER ".." INTEGER ")" "|" ID "|" {"decl_interna"}"decl_interna|
+              IF "("expr ")"{"decl_interna"decl_interna}
 
-expr -> ID |
-        ID "." expr |
-        INTEGER
-        CHAR|
-        STRING|
-        BUILTINIDENTIFIER "(expr)" |
-       BUILTINIDENTIFIER "(expr)" "." expr|
-       expr "+" expr |
-       expr "-" expr |
-       expr "/" expr |
-       expr "*" expr |
-       expr ">" expr |
-       expr "<" expr |
-       expr "%" expr |
-       expr "==" expr  |
-       expr "and" expr |
-       expr "or"  expr |
-       expr "==" expr |
-       expr "and"expr |
-       expr "or" expr |
+expr -> 
+       ID "-" expr |
+       ID "/" expr |
+       ID "*" expr |
+       ID ">" expr |
+       ID "<" expr |
+       ID "%" expr |
+       ID "==" expr  |
+       ID "and" expr |
+       ID "or"  expr |
+       ID "==" expr |
+       ID "and"expr |
+       ID "or" expr |
         TRUE        |  
         FALSE       |    
+       INTEGER
+       ID
+       ID "." EXPR
+       BUILTINIDENTIFIER "(STRING)" |
+       BUILTINIDENTIFIER "(STRING)" "." expr|
+       ID "+" expr |
         call
 
-call -> expr "("args")" |
-        expr "("")"
-        expr "("args "," "." "{"args"}" ")" |
-        expr "("args "," "." "{"args"}" ")" 
+call -> ID "("args")" |
+        ID "("")"
 
-args -> expr "," args |
-        expr
+args -> ID "," args |
+        ID |
+        STRING "," "." "{"args"}"
+        STRING "," "." "{""}"
 
-params -> expr : tipo_retorno |
-          expr : tipo_retorno, params |
+params -> ID : tipo_retorno |
+          ID : tipo_retorno, params |
 ```

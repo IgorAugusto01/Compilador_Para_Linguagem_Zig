@@ -1,27 +1,28 @@
 # Documentação Sintática da Linguagem de Programação Zig
 ---
 
-Um programa Zig pode ser composto por uma função e/ou comandos.
+Um programa Zig pode ser composto por uma função e/ou declarações externas.
 
 ```
 programa -> funcao  |
-            comandos |
+            decl |
             funcao programa |
-            comandos programa
-```
-
-As funções em Zig por padrão são privadas, elas podem ou não vir com o prefixo "pub", mas necessitam estar com "fn", ID, parênteses contendo ou não parâmetros, dois pontos, o tipo de retorno, além das chaves contendo o corpo da função.
+            decl programa
 
 ```
-funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"corpo"}" |
-        "pub" "fn" ID "()" tipo_retorno "{"corpo"}" |
-        
-        "pub" "fn" ID "("params")" tipo_retorno "{""}" |
+
+As funções em Zig por padrão são privadas, elas podem ou não vir com o prefixo "pub", mas necessitam estar com "fn", ID, parênteses contendo ou não parâmetros, dois pontos, o tipo de retorno, além das chaves contendo as declarações internas da função.
+
+```
+funcao -> "pub" "fn" ID "("params")" tipo_retorno "{"decl_interna"}" |
+        "pub" "fn" ID "()" tipo_retorno "{"decl_interna"}" |
+
+          "fn" ID "("params")" tipo_retorno "{"decl_interna"}|
+          "fn" ID "()" tipo_retorno "{"decl_interna"}"
+
+
+          "pub" "fn" ID "("params")" tipo_retorno "{""}" |
         "pub" "fn" ID "()" tipo_retorno "{""}" |
-
-          "fn" ID "("params")" tipo_retorno "{"corpo"}|
-          "fn" ID "()" tipo_retorno "{"corpo"}"
-
 
           "fn" ID "("params")" tipo_retorno "{""}|
           "fn" ID "()" tipo_retorno "{""}"
@@ -51,25 +52,12 @@ params -> ID : tipo_retorno |
           ID : tipo_retorno, params |    
 ```
 
-Um corpo pode conter comandos.
-
+Declarações externas são os comandos que funcionam estando ou nao em uma função.
 ```
-corpo ->  comandos
-
-comandos -> comando |
-            comando comandos     
-```
- 
-Um comando pode ser servido da palavra const, que pode ser especificado o tipo de retorno ou não, e a palavra var, que necessariamente precisa especificar o tipo de retorno. Todas essas palavras podem vir precedidas da palavra pub, além do while, for e return.
-
-```
-comando -> "var" ID ":" tipo_retorno "=" expr ";" |
+decl -> "var" ID ":" tipo_retorno "=" expr ";" |
               "const" ID = expr ";"|
               "const" ID ":" tipo_retorno "=" expr ";" |
-              "var" ID ":" tipo_retorno "=" "("expr")" ";" |
-              "const" ID = "("expr") ";"|
-              "const" ID ":" tipo_retorno "=" "("expr")" ";" |
-              "_" "=" expr ";" |
+              expr ";" |
               ID "=" expr ";" | 
               ID "+=" expr ";"|
               ID "+%" expr ";"|
@@ -81,50 +69,75 @@ comando -> "var" ID ":" tipo_retorno "=" expr ";" |
               ID "-%=" expr ";"|
               ID "-|" expr ";"|
               ID "-|=" expr ";"|
-              WHILE "(expr")" "{"comandos"}" |
-              FOR "("expr ".." expr ")" "|" expr "|" |
-              RETURN expr ";"
-              "if" "("expr ")"{"comandos"}
+```
+  
+
+ 
+Já as declarações internas precisam estar dentro de uma função
+
+```
+decl_interna -> "var" ID ":" tipo_retorno "=" expr ";" |
+              "const" ID = expr ";"|
+              "const" ID ":" tipo_retorno "=" expr ";" |
+              ID "=" expr ";" | 
+              ID "+=" expr ";"|
+              ID "+%" expr ";"|
+              ID "+%=" expr ";"|
+              ID "+|" expr ";"|
+              ID "+|=" expr ";"|
+              ID "-=" expr ";"|
+              ID "-%" expr ";"|
+              ID "-%=" expr ";"|
+              ID "-|" expr ";"|
+              ID "-|=" expr ";"|
+              expr ";" |
+             "var" ID ":" tipo_retorno "=" expr ";"  decl_interna|
+              "const" ID = expr ";" decl_interna|
+              "const" ID ":" tipo_retorno"=" expr ";" ecl_interna  |
+              ID "=" expr ";" | decl_interna 
+              ID "+=" expr ";" decl_interna|
+              ID "+%" expr ";" decl_interna|
+              ID "+%=" expr ";" decl_interna|
+              ID "+|" expr ";" decl_interna|
+              ID "+|=" expr ";" decl_interna|
+              ID "-=" expr ";" decl_interna|
+              ID "-%" expr ";" decl_interna|
+              ID "-%=" expr ";" decl_interna|
+              ID "-|" expr ";" decl_interna|
+              ID "-|=" expr ";" decl_interna|
+              expr ";"  decl_interna|
+              BREAK ";" decl_interna
+              RETURN expr ";" decl_interna
+              WHILE "(expr")" "{"decl_interna"}" decl_interna|
+              FOR "("INTEGER ".." INTEGER ")" "|" ID "|" {"decl_interna"}"decl_interna|
+              IF "("expr ")"{"decl_interna"decl_interna}
 
 ```
 
 As expressões são todas as possibilidades de retorno. Estão escritas abaixo.
 ```
-expr -> ID |
-        ID "." expr |
-        INTEGER |
-        CHAR|
-        STRING|
-        BUILTINIDENTIFIER "(STRING)" |
-        BUILTINIDENTIFIER "(STRING)" "." expr|
-        INTEGER "+" expr |
-        INTEGER "+" expr |
-        INTEGER "-" expr |
-        INTEGER "/" expr |
-        INTEGER "*" expr |
-        INTEGER ">" expr |
-        INTEGER "<" expr |
-        ID "+" expr |
-        ID "-" expr |
-        ID "/" expr |
-        ID "*" expr |
-        ID ">" expr |
-        ID "<" expr |
-        ID "==" ID  |
-        ID "and" ID |
-        ID "or"  ID |
-        INTEGER "==" ID  |
-        INTEGER "and" ID |
-        INTEGER "or"  ID |
-        ID "=="  INTEGER |
-        ID "and" INTEGER |
-        ID "or"  INTEGER |
-        INTEGER "=="  INTEGER |
-        INTEGER "and" INTEGER |
-        INTEGER "or"  INTEGER |
+expr -> 
+       ID "-" expr |
+       ID "/" expr |
+       ID "*" expr |
+       ID ">" expr |
+       ID "<" expr |
+       ID "%" expr |
+       ID "==" expr  |
+       ID "and" expr |
+       ID "or"  expr |
+       ID "==" expr |
+       ID "and"expr |
+       ID "or" expr |
         TRUE        |  
         FALSE       |    
-        call 
+       INTEGER
+       ID
+       ID "." EXPR
+       BUILTINIDENTIFIER "(STRING)" |
+       BUILTINIDENTIFIER "(STRING)" "." expr|
+       ID "+" expr |
+        call
    ```
 
    ```
@@ -136,13 +149,13 @@ expr -> ID |
 Chamadas de função podem ser expressas com ou sem argumentos: 
 
  ```       
-call -> ID "." ID "(" ")"
-call -> ID "." ID "(" args ")"
-call -> ID "." ID "." ID "(" ")"
-call -> ID "." ID "." ID "(" args ")"
+call -> ID "("args")" |
+        ID "("")"
 
-args -> expr "," args |
-        expr              
+args -> ID "," args |
+        ID |
+        STRING "," "." "{"args"}"
+        STRING "," "." "{""}"            
 ```       
 
 
