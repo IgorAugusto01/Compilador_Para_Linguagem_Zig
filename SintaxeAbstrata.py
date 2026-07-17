@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from abc import ABC
+import AbstractVisitor
 
 
 
@@ -480,7 +481,7 @@ class Expr_Call(ExprAbstract):
         self.call = call
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Expr(self)
+        return visitor.visitExpr_Call(self)
 
 class Expr_Integer(ExprAbstract):
 
@@ -524,7 +525,7 @@ class Expr_Id_Rarrow_Expr(ExprAbstract):
         self.expr = expr
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Greater_Expr(self)
+        return visitor.visitExpr_Id_Rarrow_Expr(self)
 
 
 class Expr_Id_Larrow_Expr(ExprAbstract):
@@ -533,7 +534,7 @@ class Expr_Id_Larrow_Expr(ExprAbstract):
         self.expr = expr
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Less_Expr(self)
+        return visitor.visitExpr_Id_Larrow_Expr(self)
 
 
 class Expr_Id_Percent_Expr(ExprAbstract):
@@ -589,9 +590,6 @@ class Expr_False(ExprAbstract):
 
 
 ###################### DEFINIÇÃO DA CLASSE ABSTRATA DECL_INTERNA E SUAS CLASSES CONCRETAS #########################  
-
-from abc import ABC, abstractmethod
-
 
 class Decl_InternaAbstract(ABC):
     @abstractmethod

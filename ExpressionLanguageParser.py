@@ -167,34 +167,6 @@ def p_args_string(p):
     p[0] = sa.Args_String()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ##### Variavel Decl ######
 
 def p_decl_var_tipo_retorno_expr(p):
@@ -303,12 +275,6 @@ def p_decl_id_minuspipeequal_expr(p):
     decl : ID MINUSPIPEEQUAL expr SEMICOLON
     '''
     p[0] = sa.Decl_Id_MinusPipeEqual_Expr(p[3])
-
-
-
-
-
-
 
 
 ##### Variavel Expr ######
