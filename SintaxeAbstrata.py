@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from abc import ABC
-import AbstractVisitor
+
 
 
 
@@ -63,8 +63,8 @@ class FuncaoAbstract(ABC):
   
   
 class Funcao_Pub_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
-    def __init__(self, pub, params, tipo_retorno, decl_interna):
-        self.pub = pub
+    def __init__(self, id, params, tipo_retorno, decl_interna):
+        self.id = id
         self.params = params
         self.tipo_retorno = tipo_retorno
         self.decl_interna = decl_interna
@@ -74,8 +74,8 @@ class Funcao_Pub_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
 
 
 class Funcao_Pub_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
-    def __init__(self, pub, tipo_retorno, decl_interna):
-        self.pub = pub
+    def __init__(self, id, tipo_retorno, decl_interna):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.decl_interna = decl_interna
 
@@ -84,7 +84,8 @@ class Funcao_Pub_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
 
 
 class Funcao_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
-    def __init__(self, params, tipo_retorno, decl_interna):
+    def __init__(self,id, params, tipo_retorno, decl_interna):
+        self.id = id
         self.params = params
         self.tipo_retorno = tipo_retorno
         self.decl_interna = decl_interna
@@ -94,7 +95,8 @@ class Funcao_Fn_Params_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
 
 
 class Funcao_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
-    def __init__(self, tipo_retorno, decl_interna):
+    def __init__(self,id ,tipo_retorno, decl_interna):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.decl_interna = decl_interna
 
@@ -103,35 +105,37 @@ class Funcao_Fn_Tipo_Retorno_Decl_Interna(FuncaoAbstract):
 
 
 class Funcao_Pub_Fn_Params_Tipo_Retorno(FuncaoAbstract):
-    def __init__(self, pub, params, tipo_retorno):
-        self.pub = pub
+    def __init__(self,id, params, tipo_retorno):
+        self.id = id
         self.params = params
         self.tipo_retorno = tipo_retorno
 
     def accept(self, visitor):
         return visitor.visitFuncao_Pub_Fn_Params_Tipo_Retorno(self)
 
-
-class Funcao_Pub_Fn_Tipo_Retorno(FuncaoAbstract):
-    def __init__(self, pub, tipo_retorno):
-        self.pub = pub
-        self.tipo_retorno = tipo_retorno
-
-    def accept(self, visitor):
-        return visitor.visitFuncao_Pub_Fn_Tipo_Retorno(self)
-
-
 class Funcao_Fn_Params_Tipo_Retorno(FuncaoAbstract):
-    def __init__(self, params, tipo_retorno):
+    def __init__(self, id ,params, tipo_retorno):
+        self.id = id
         self.params = params
         self.tipo_retorno = tipo_retorno
 
     def accept(self, visitor):
         return visitor.visitFuncao_Fn_Params_Tipo_Retorno(self)
 
+class Funcao_Pub_Fn_Tipo_Retorno(FuncaoAbstract):
+    def __init__(self, id, tipo_retorno):
+        self.id = id
+        self.tipo_retorno = tipo_retorno
+
+    def accept(self, visitor):
+        return visitor.visitFuncao_Pub_Fn_Tipo_Retorno(self)
+
+
+
 
 class Funcao_Fn_Tipo_Retorno(FuncaoAbstract):
-    def __init__(self, tipo_retorno):
+    def __init__(self, id,tipo_retorno):
+        self.id = id
         self.tipo_retorno = tipo_retorno
 
     def accept(self, visitor):
@@ -173,20 +177,22 @@ class ParamsAbstract(ABC):
 
 
 class Params_Id_Tipo_Retorno(ParamsAbstract):
-    def __init__(self, tipo_retorno):
+    def __init__(self, id ,tipo_retorno):
+        self.id = id
         self.tipo_retorno = tipo_retorno
 
     def accept(self, visitor):
-        return visitor.visitParams_IdTipo_Retorno(self)
+        return visitor.visitParams_Id_Tipo_Retorno(self)
     
     
 class Params_Id_Tipo_Retorno_Params(ParamsAbstract):
-    def __init__(self, tipo_retorno,params):
+    def __init__(self, id,tipo_retorno,params):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.params = params
     
     def accept(self, visitor):
-        return visitor.visitParams_IdTipo_Retorno_Params(self)
+        return visitor.visitParams_Id_Tipo_Retorno_Params(self)
     
     
     
@@ -205,7 +211,8 @@ class CallAbstract(ABC):
     
 class Call_Args(CallAbstract):
     
-    def __init__(self,args):
+    def __init__(self,id,args):
+        self.id = id
         self.args = args
     
     
@@ -214,8 +221,8 @@ class Call_Args(CallAbstract):
 
 class Call_No_Args(CallAbstract):
     
-    def __init__(self):
-        pass
+    def __init__(self,id):
+        self.id = id
     
     
     def accept(self, visitor):
@@ -237,8 +244,8 @@ class ArgsAbstract(ABC):
     
 class Args_Id(ArgsAbstract):
     
-    def __init__(self):
-        pass
+    def __init__(self,id):
+        self.id = id
     
     
     def accept(self, visitor):
@@ -247,7 +254,8 @@ class Args_Id(ArgsAbstract):
  
 class Args_Id_Args(ArgsAbstract):
     
-    def __init__(self,args):
+    def __init__(self,id,args):
+        self.id = id
         self.args = args
         
     
@@ -257,7 +265,8 @@ class Args_Id_Args(ArgsAbstract):
     
 class Args_String_Args(ArgsAbstract):
     
-    def __init__(self,args):
+    def __init__(self,string,args):
+       self.string = string
        self.args = args
         
     
@@ -267,8 +276,8 @@ class Args_String_Args(ArgsAbstract):
 
 class Args_String(ArgsAbstract):
     
-    def __init__(self):
-      pass
+    def __init__(self,string):
+      self.string = string
         
     
     
@@ -291,7 +300,8 @@ class DeclAbstract(ABC):
 
 class Decl_Var_Tipo_Retorno_Expr(DeclAbstract):
 
-    def __init__(self, tipo_retorno, expr):
+    def __init__(self, id ,tipo_retorno, expr):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
@@ -301,7 +311,8 @@ class Decl_Var_Tipo_Retorno_Expr(DeclAbstract):
     
 class Decl_Const_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -309,7 +320,8 @@ class Decl_Const_Expr(DeclAbstract):
 
 class Decl_Const_Tipo_Retorno_Expr(DeclAbstract):
 
-    def __init__(self, tipo_retorno, expr):
+    def __init__(self, id,tipo_retorno, expr):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
@@ -318,7 +330,8 @@ class Decl_Const_Tipo_Retorno_Expr(DeclAbstract):
 
 class Decl_Equal_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -335,7 +348,8 @@ class Decl_Expr(DeclAbstract):
     
 class Decl_Id_PlusEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -344,7 +358,8 @@ class Decl_Id_PlusEqual_Expr(DeclAbstract):
     
 class Decl_Id_PlusPercent_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -352,7 +367,8 @@ class Decl_Id_PlusPercent_Expr(DeclAbstract):
     
 class Decl_Id_PlusPercentEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -360,7 +376,8 @@ class Decl_Id_PlusPercentEqual_Expr(DeclAbstract):
 
 class Decl_Id_PlusPipe_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -369,7 +386,8 @@ class Decl_Id_PlusPipe_Expr(DeclAbstract):
     
 class Decl_Id_PlusPipeEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id ,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -378,7 +396,8 @@ class Decl_Id_PlusPipeEqual_Expr(DeclAbstract):
 
 class Decl_Id_MinusEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -387,7 +406,8 @@ class Decl_Id_MinusEqual_Expr(DeclAbstract):
 
 class Decl_Id_MinusPercent_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id ,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -396,7 +416,8 @@ class Decl_Id_MinusPercent_Expr(DeclAbstract):
 
 class Decl_Id_MinusPercentEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id ,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -404,7 +425,8 @@ class Decl_Id_MinusPercentEqual_Expr(DeclAbstract):
     
 class Decl_Id_MinusPipe_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -413,7 +435,8 @@ class Decl_Id_MinusPipe_Expr(DeclAbstract):
 
 class Decl_Id_MinusPipeEqual_Expr(DeclAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id,expr):
+        self.id =id
         self.expr = expr
 
     def accept(self, visitor):
@@ -435,33 +458,37 @@ class ExprAbstract(ABC):
 
 class Expr_BuiltinIdentifier_String(ExprAbstract):
 
-    def __init__(self):
-        pass
+    def __init__(self,builtindentifier,string):
+        self.builtindentifier = builtindentifier
+        self.string = string
 
     def accept(self, visitor):
-        return visitor.visitExpr_BuiltinIdentifier_Expr(self)
+        return visitor.visitExpr_BuiltinIdentifier_String(self)
     
     
 class Expr_BuiltinIdentifier_Expr(ExprAbstract):
 
-    def __init__(self, expr):
-        self.expr = expr
+    def __init__(self,builtindentifier, expr1,expr2):
+        self.builtindentifier = builtindentifier
+        self.expr1 = expr1
+        self.expr2 = expr2
 
     def accept(self, visitor):
         return visitor.visitExpr_BuiltinIdentifier_Expr(self)
 
 class Expr_Id_Plus_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Expr(self)
+        return visitor.visitExpr_Id_Plus_Expr(self)
 
 class Expr_Id(ExprAbstract):
 
-    def __init__(self):
-        pass
+    def __init__(self,id):
+      self.id = id
 
     def accept(self, visitor):
         return visitor.visitExpr_Id(self)
@@ -469,7 +496,8 @@ class Expr_Id(ExprAbstract):
 
 class Expr_Id_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id ,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -485,8 +513,8 @@ class Expr_Call(ExprAbstract):
 
 class Expr_Integer(ExprAbstract):
 
-    def __init__(self):
-        pass
+    def __init__(self,integer):
+        self.integer = integer
 
     def accept(self, visitor):
         return visitor.visitExpr_Integer(self)
@@ -494,7 +522,8 @@ class Expr_Integer(ExprAbstract):
 
 class Expr_Id_Minus_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -503,7 +532,8 @@ class Expr_Id_Minus_Expr(ExprAbstract):
 
 class Expr_Id_Slash_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -512,7 +542,8 @@ class Expr_Id_Slash_Expr(ExprAbstract):
 
 class Expr_Id_Asterisk_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -521,7 +552,8 @@ class Expr_Id_Asterisk_Expr(ExprAbstract):
 
 class Expr_Id_Rarrow_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -530,7 +562,8 @@ class Expr_Id_Rarrow_Expr(ExprAbstract):
 
 class Expr_Id_Larrow_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id, expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -539,7 +572,8 @@ class Expr_Id_Larrow_Expr(ExprAbstract):
 
 class Expr_Id_Percent_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id, expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -547,7 +581,8 @@ class Expr_Id_Percent_Expr(ExprAbstract):
 
 class Expr_Id_EqualEqual_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -556,7 +591,8 @@ class Expr_Id_EqualEqual_Expr(ExprAbstract):
 
 class Expr_Id_And_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -565,22 +601,23 @@ class Expr_Id_And_Expr(ExprAbstract):
 
 class Expr_Id_Or_Expr(ExprAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id, expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
         return visitor.visitExpr_Id_Or_Expr(self)
     
 class Expr_True(ExprAbstract):
-    def __init__(self):
-     pass      
+    def __init__(self,true):
+     self.true = true
     
     def accept(self, visitor):
         return visitor.visitExpr_True(self)
 
 class Expr_False(ExprAbstract):
-    def __init__(self):
-       pass 
+    def __init__(self,false):
+       self.false = false
     
     def accept(self, visitor):
         return visitor.visitExpr_False(self)
@@ -599,8 +636,8 @@ class Decl_InternaAbstract(ABC):
 
 class Decl_Interna_Break(Decl_InternaAbstract):
 
-    def __init__(self):
-        pass
+    def __init__(self,break_tok):
+        self.break_tok = break_tok
 
     def accept(self, visitor):
         return visitor.visitDecl_Interna_Break(self)
@@ -608,7 +645,8 @@ class Decl_Interna_Break(Decl_InternaAbstract):
 
 class Decl_Interna_Return_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, return_tok,expr):
+        self.return_tok = return_tok
         self.expr = expr
 
     def accept(self, visitor):
@@ -626,19 +664,22 @@ class Decl_Interna_While_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_For_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, decl_interna):
+    def __init__(self,integer1,integer2, id,decl_interna):
+        self.integer1 = integer1
+        self.integer2 = integer2
+        self.id = id
         self.decl_interna = decl_interna
 
     def accept(self, visitor):
         return visitor.visitDecl_Interna_For_Decl_Interna(self)
-    
+     
 class Decl_Interna_Expr(DeclAbstract):
 
     def __init__(self, expr):
         self.expr = expr
 
     def accept(self, visitor):
-        return visitor.visitDecl__Interna_Expr(self)
+        return visitor.visitDecl_Interna_Expr(self)
 
 class Decl_Interna_If_Expr_Decl_Interna(Decl_InternaAbstract):
 
@@ -651,7 +692,8 @@ class Decl_Interna_If_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_Var_Tipo_Retorno_Expr(Decl_InternaAbstract):
 
-    def __init__(self, tipo_retorno, expr):
+    def __init__(self, id,tipo_retorno, expr):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
@@ -661,7 +703,8 @@ class Decl_Interna_Var_Tipo_Retorno_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_Const_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -670,7 +713,8 @@ class Decl_Interna_Const_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_Const_Tipo_Retorno_Expr(Decl_InternaAbstract):
 
-    def __init__(self, tipo_retorno, expr):
+    def __init__(self, id,tipo_retorno, expr):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
 
@@ -679,7 +723,8 @@ class Decl_Interna_Const_Tipo_Retorno_Expr(Decl_InternaAbstract):
     
 class Decl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, tipo_retorno, expr, decl_interna):
+    def __init__(self, id,tipo_retorno, expr, decl_interna):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
         self.decl_interna = decl_interna
@@ -690,7 +735,8 @@ class Decl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_Const_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -700,7 +746,8 @@ class Decl_Interna_Const_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_Const_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, tipo_retorno, expr, decl_interna):
+    def __init__(self, id,tipo_retorno, expr, decl_interna):
+        self.id = id
         self.tipo_retorno = tipo_retorno
         self.expr = expr
         self.decl_interna = decl_interna
@@ -710,7 +757,8 @@ class Decl_Interna_Const_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
     
 class Decl_Interna_Equal_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -719,7 +767,8 @@ class Decl_Interna_Equal_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_PlusEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -728,7 +777,8 @@ class Decl_Interna_PlusEqual_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPercent_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -737,7 +787,8 @@ class Decl_Interna_PlusPercent_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPercentEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -746,7 +797,8 @@ class Decl_Interna_PlusPercentEqual_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPipe_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self,id, expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -756,7 +808,8 @@ class Decl_Interna_PlusPipe_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_Equal_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -766,7 +819,8 @@ class Decl_Interna_Equal_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_PlusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -776,7 +830,8 @@ class Decl_Interna_PlusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -786,7 +841,8 @@ class Decl_Interna_PlusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -796,7 +852,8 @@ class Decl_Interna_PlusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_PlusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -806,7 +863,8 @@ class Decl_Interna_PlusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
     
 class Decl_Interna_PlusPipeEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -815,7 +873,8 @@ class Decl_Interna_PlusPipeEqual_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_MinusEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -824,7 +883,8 @@ class Decl_Interna_MinusEqual_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPercent_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -833,7 +893,8 @@ class Decl_Interna_MinusPercent_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPercentEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -842,7 +903,8 @@ class Decl_Interna_MinusPercentEqual_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPipe_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -851,7 +913,8 @@ class Decl_Interna_MinusPipe_Expr(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPipeEqual_Expr(Decl_InternaAbstract):
 
-    def __init__(self, expr):
+    def __init__(self, id,expr):
+        self.id = id
         self.expr = expr
 
     def accept(self, visitor):
@@ -860,7 +923,8 @@ class Decl_Interna_MinusPipeEqual_Expr(Decl_InternaAbstract):
     
 class Decl_Interna_PlusPipeEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -870,7 +934,8 @@ class Decl_Interna_PlusPipeEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_MinusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -880,7 +945,8 @@ class Decl_Interna_MinusEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -890,7 +956,8 @@ class Decl_Interna_MinusPercent_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -900,7 +967,7 @@ class Decl_Interna_MinusPercentEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -910,7 +977,8 @@ class Decl_Interna_MinusPipe_Expr_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_MinusPipeEqual_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, id,expr, decl_interna):
+        self.id = id
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -929,7 +997,8 @@ class Decl_Interna_Expr_Decl_Interna(DeclAbstract):
 
 class Decl_Interna_Break_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, decl_interna):
+    def __init__(self,break_tok ,decl_interna):
+        self.break_tok = break_tok
         self.decl_interna = decl_interna
 
     def accept(self, visitor):
@@ -938,7 +1007,8 @@ class Decl_Interna_Break_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_Return_Expr_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, expr, decl_interna):
+    def __init__(self, return_tok,expr, decl_interna):
+        self.return_tok = return_tok
         self.expr = expr
         self.decl_interna = decl_interna
 
@@ -959,7 +1029,10 @@ class Decl_Interna_While_Expr_Decl_Interna_Decl_Interna(Decl_InternaAbstract):
 
 class Decl_Interna_For_Decl_Interna_Decl_Interna(Decl_InternaAbstract):
 
-    def __init__(self, decl_interna1, decl_interna2):
+    def __init__(self, integer1,integer2,id,decl_interna1, decl_interna2):
+        self.integer1 = integer1
+        self.integer2 = integer2
+        self.id = id
         self.decl_interna1 = decl_interna1
         self.decl_interna2 = decl_interna2
 
