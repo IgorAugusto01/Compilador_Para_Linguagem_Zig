@@ -140,10 +140,7 @@ expr ->
         call
    ```
 
-   ```
-  params -> ID : tipo_retorno |
-          ID : tipo_retorno, params |
-   ```
+  
 
 
 Chamadas de função podem ser expressas com ou sem argumentos: 

@@ -10,29 +10,24 @@ import ply.yacc as yacc
 
 
 
-class AssemblyVisitor(Visitor):
+class SemanticVisitor(Visitor):
 
 
     def __init__(self):
-        # Código gerado
+       
          self.data = []
          self.text = []
 
-         # Controle da função
+         
          self.current_function = None
 
-         # Tabela de símbolos:
-         # nome -> {
-         #     offset: posição na stack,
-         #     type: tipo,
-         #     const: True/False
-         # }
+        
          self.symbols = {}
 
-         # Próximo offset negativo para variáveis locais
+         
          self.next_offset = -4
 
-         # Maior espaço utilizado pela função
+         
          self.stack_size = 32
 
          # Labels
@@ -1692,7 +1687,7 @@ def main():
 
         print("#imprime erros semanticos encontrados")
 
-        svisitor = SemanticVisitor()
+        svisitor = SemanticVisitor() 
 
         result = parser.parse(
             debug=False,

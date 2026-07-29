@@ -1,4 +1,3 @@
-const std = @import("std");
 
 pub fn main() void {
     var soma: i32 = 10 + 5;
