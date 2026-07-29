@@ -1,0 +1,64 @@
+.data
+
+
+.text
+.globl main
+
+
+main:
+addi $sp, $sp, -32
+sw $ra, 28($sp)
+sw $fp, 24($sp)
+move $fp, $sp
+li $t0, 10
+li $t1, 5
+sw None, -4($sp)
+li $t2, 20
+li $t3, 8
+sub $t4, $t2, $t3
+sw $t4, -8($sp)
+li $t5, 6
+li $t6, 7
+mul $t7, $t5, $t6
+sw $t7, -12($sp)
+lw $t8, -16($sp)
+li $t9, 10
+sgt $t0, $t8, $t9
+beq $t0, $zero, else0
+lw $t1, -16($sp)
+li $t2, 1
+sw None, -16($sp)
+j if_end1
+else0:
+li $t3, 0
+sw $t3, -20($sp)
+lw $t4, -24($sp)
+li $t5, 5
+slt $t6, $t4, $t5
+lw $t7, -24($sp)
+li $t8, 1
+sw None, -24($sp)
+li $t9, 1
+sw $t9, -28($sp)
+for2:
+lw $t0, -28($sp)
+li $t1, 10
+blt $t0, $t1, $t2
+beq $t2, $zero, for_end3
+lw $t3, -28($sp)
+li $t4, 1
+sw None, -28($sp)
+lw $t5, -28($sp)
+li $t6, 1
+add $t7, $t5, $t6
+sw $t7, -28($sp)
+j for2
+for_end3:
+if_end1:
+
+main_end:
+move $sp, $fp
+lw $fp, 24($sp)
+lw $ra, 28($sp)
+addi $sp, $sp, 32
+jr $ra

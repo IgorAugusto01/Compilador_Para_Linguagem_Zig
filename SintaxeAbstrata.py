@@ -131,7 +131,19 @@ class Funcao_Pub_Fn_Tipo_Retorno(FuncaoAbstract):
         return visitor.visitFuncao_Pub_Fn_Tipo_Retorno(self)
 
 
+class IdAbstract(ABC):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
 
+
+class Id(IdAbstract):
+
+    def __init__(self, nome):
+        self.nome = nome
+
+    def accept(self, visitor):
+        return visitor.visitId(self)
 
 class Funcao_Fn_Tipo_Retorno(FuncaoAbstract):
     def __init__(self, id,tipo_retorno):
@@ -161,6 +173,21 @@ class Tipo_Retorno(Tipo_RetornoAbstract):
 
     def accept(self, visitor):
         return visitor.visitTipo_Retorno(self)
+    
+    
+class TipoAbstract(ABC):
+    @abstractmethod
+    def accept(self, visitor):
+        pass
+
+
+class Tipo(TipoAbstract):
+
+    def __init__(self, tipo):
+        self.tipo = tipo
+
+    def accept(self, visitor):
+        return visitor.visitTipo(self)
     
  ####################################################################################################
  
@@ -455,7 +482,14 @@ class ExprAbstract(ABC):
         pass   
 
 
+class BuiltinIdentifier(ExprAbstract):
 
+    def __init__(self, nome):
+        self.nome = nome
+
+    def accept(self, visitor):
+        return visitor.visitBuiltinIdentifier(self)
+    
 class Expr_BuiltinIdentifier_String(ExprAbstract):
 
     def __init__(self,builtindentifier,string):
@@ -476,14 +510,14 @@ class Expr_BuiltinIdentifier_Expr(ExprAbstract):
     def accept(self, visitor):
         return visitor.visitExpr_BuiltinIdentifier_Expr(self)
 
-class Expr_Id_Plus_Expr(ExprAbstract):
+class Expr_Expr_Plus_Expr(ExprAbstract):
 
-    def __init__(self, id,expr):
-        self.id = id
-        self.expr = expr
+    def __init__(self, expr1,expr2):
+        self.expr1 =  expr1
+        self.expr2 = expr2
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Plus_Expr(self)
+        return visitor.visitExpr_Expr_Plus_Expr(self)
 
 class Expr_Id(ExprAbstract):
 
@@ -520,14 +554,14 @@ class Expr_Integer(ExprAbstract):
         return visitor.visitExpr_Integer(self)
     
 
-class Expr_Id_Minus_Expr(ExprAbstract):
+class Expr_Expr_Minus_Expr(ExprAbstract):
 
-    def __init__(self, id,expr):
-        self.id = id
-        self.expr = expr
+    def __init__(self, expr1,expr2):
+        self.expr1 = expr1
+        self.expr2 = expr2
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Minus_Expr(self)
+        return visitor.visitExpr_Expr_Minus_Expr(self)
 
 
 class Expr_Id_Slash_Expr(ExprAbstract):
@@ -540,14 +574,14 @@ class Expr_Id_Slash_Expr(ExprAbstract):
         return visitor.visitExpr_Id_Slash_Expr(self)
 
 
-class Expr_Id_Asterisk_Expr(ExprAbstract):
+class Expr_Expr_Asterisk_Expr(ExprAbstract):
 
-    def __init__(self, id,expr):
-        self.id = id
-        self.expr = expr
+    def __init__(self,expr1,expr2):
+        self.expr1 = expr1
+        self.expr2 = expr2
 
     def accept(self, visitor):
-        return visitor.visitExpr_Id_Asterisk_Expr(self)
+        return visitor.visitExpr_Expr_Asterisk_Expr(self)
 
 
 class Expr_Id_Rarrow_Expr(ExprAbstract):
@@ -742,7 +776,17 @@ class Decl_Interna_Const_Expr_Decl_Interna(Decl_InternaAbstract):
 
     def accept(self, visitor):
         return visitor.visitDecl_Interna_Const_Expr_Decl_Interna(self)
+    
+    class Decl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
 
+        def __init__(self, id, tipo_retorno, expr, decl_interna):
+            self.id = id
+            self.tipo_retorno = tipo_retorno
+            self.expr = expr
+            self.decl_interna = decl_interna
+
+        def accept(self, visitor):
+            return visitor.visitDecl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(self)
 
 class Decl_Interna_Const_Tipo_Retorno_Expr_Decl_Interna(Decl_InternaAbstract):
 

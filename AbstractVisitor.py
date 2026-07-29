@@ -121,7 +121,7 @@ class AbstractVisitor(metaclass = ABCMeta):
     def visitExpr_BuiltinIdentifier_Expr(self,Expr_BuiltinIdentifier_Expr):pass
     
     @abstractmethod
-    def visitExpr_Id_Plus_Expr(self,Expr_Id_Plus_Expr):pass
+    def visitExpr_Expr_Plus_Expr(self,Expr_Expr_Plus_Expr):pass
     
     @abstractmethod
     def visitExpr_Id(self,Expr_Id):pass
@@ -136,13 +136,13 @@ class AbstractVisitor(metaclass = ABCMeta):
     def visitExpr_Integer(self,Expr_Integer):pass
     
     @abstractmethod
-    def visitExpr_Id_Minus_Expr(self,Expr_Id_Minus_Expr):pass
+    def visitExpr_Expr_Minus_Expr(self,Expr_Expr_Minus_Expr):pass
     
     @abstractmethod
     def visitExpr_Id_Slash_Expr(self,Expr_Id_Slash_Expr):pass
     
     @abstractmethod
-    def visitExpr_Id_Asterisk_Expr(self,Expr_Id_Asterisk_Expr):pass
+    def visitExpr_Expr_Asterisk_Expr(self,Expr_Expr_Asterisk_Expr):pass
     
     @abstractmethod
     def visitExpr_Id_Rarrow_Expr(self,Expr_Id_Rarrow_Expr):pass

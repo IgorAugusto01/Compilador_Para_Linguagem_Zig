@@ -4,7 +4,11 @@ import SintaxeAbstrata as sa
 
 ########################## REGRAS DE PRODUÇÃO PARA O PARSER #########################
 
-
+# PRECEDÊNCIA DOS OPERADORES
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'ASTERISK'),
+)
 
 
 def p_error(p):
@@ -71,7 +75,7 @@ def p_funcao_fn_params_tipo_retorno(p):
 
 def p_funcao_pub_fn_tipo_retorno(p):
     '''funcao : PUB FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE'''
-    p[0] = sa.Funcao_Pub_Fn_Tipo_Retorno(p[2], p[6])
+    p[0] = sa.Funcao_Pub_Fn_Tipo_Retorno(p[3], p[6])
     
 def p_funcao_fn_tipo_retorno(p):
     '''funcao : FN ID LPAREN RPAREN tipo_retorno LBRACE RBRACE'''
@@ -98,7 +102,7 @@ def p_tipo_retorno(p):
                   | I128
                   | U128
     '''
-    p[0] = sa.Tipo_Retorno(p[1])
+    p[0] = sa.Tipo_Retorno(sa.Tipo(p[1]))
  
 
 
@@ -284,20 +288,21 @@ def p_expr_builtinidentifier_String(p):
     '''
     expr : BUILTINIDENTIFIER LPAREN STRING RPAREN
     '''
-    p[0] = sa.Expr_BuiltinIdentifier_String(p[1],p[3])
+    p[0] = sa.Expr_BuiltinIdentifier_String( sa.BuiltinIdentifier(p[1]),
+    p[3])
 
 def p_expr_builtinidentifier_expr(p):
     '''
     expr : BUILTINIDENTIFIER LPAREN expr RPAREN DOT expr
     '''
-    p[0] = sa.Expr_BuiltinIdentifier_Expr(p[1],p[3],p[6])
+    p[0] = sa.Expr_BuiltinIdentifier_Expr( sa.BuiltinIdentifier(p[1],p[3],p[6]))
 
 
-def p_expr_id_plus_expr(p):
+def p_expr_expr_plus_expr(p):
     '''
-    expr : ID PLUS expr
+    expr : expr PLUS expr
     '''
-    p[0] = sa.Expr_Id_Plus_Expr(p[1],p[3])
+    p[0] = sa.Expr_Expr_Plus_Expr(p[1],p[3])
 
 
 
@@ -325,11 +330,11 @@ def p_expr_integer(p):
     p[0] = sa.Expr_Integer(p[1])
 
 
-def p_expr_id_minus_expr(p):
+def p_expr_expr_minus_expr(p):
     '''
-    expr : ID MINUS expr
+    expr : expr MINUS expr
     '''
-    p[0] = sa.Expr_Id_Minus_Expr(p[1],p[3])
+    p[0] = sa.Expr_Expr_Minus_Expr(p[1],p[3])
 
 
 def p_expr_id_slash_expr(p):
@@ -339,11 +344,11 @@ def p_expr_id_slash_expr(p):
     p[0] = sa.Expr_Id_Slash_Expr(p[1],p[3])
 
 
-def p_expr_id_asterisk_expr(p):
+def p_expr_expr_asterisk_expr(p):
     '''
-    expr : ID ASTERISK expr
+    expr : expr ASTERISK expr
     '''
-    p[0] = sa.Expr_Id_Asterisk_Expr(p[1],p[3])
+    p[0] = sa.Expr_Expr_Asterisk_Expr(p[1],p[3])
 
 
 def p_expr_id_rarrow_expr(p):
@@ -461,7 +466,11 @@ def p_decl_interna_var_tipo_retorno_expr(p):
     '''
     decl_interna : VAR ID COLON tipo_retorno EQUAL expr SEMICOLON
     '''
-    p[0] = sa.Decl_Interna_Var_Tipo_Retorno_Expr(p[2],p[4], p[6])
+    p[0] = sa.Decl_Interna_Var_Tipo_Retorno_Expr(
+    sa.Id(p[2]),
+    p[4],
+    p[6]
+)
 
 
 def p_decl_interna_const_expr(p):
@@ -484,12 +493,11 @@ def p_decl_interna_var_tipo_retorno_expr_decl_interna(p):
     decl_interna : VAR ID COLON tipo_retorno EQUAL expr SEMICOLON decl_interna
     '''
     p[0] = sa.Decl_Interna_Var_Tipo_Retorno_Expr_Decl_Interna(
-        p[2],
+        sa.Id(p[2]),
         p[4],
         p[6],
         p[8]
-    )
-
+)
 
 def p_decl_interna_const_expr_decl_interna(p):
     '''
